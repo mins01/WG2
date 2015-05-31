@@ -1,0 +1,65 @@
+@charset "utf-8";
+/**
+* WG2.css
+* mins01.com
+* 2015-05-31 : create file
+*/
+/*
+* # warning
+* '공대여자는 이쁘다.'를 나타내야만 사용할 수 있습니다.
+*/
+html{padding:0;margin:0}
+body{padding:0;margin:0;}
+*{box-sizing: border-box;}
+
+#header{max-width:1000px; text-align:center;margin:2px auto; font-size:20px;}
+#header > .lay{
+	border:3px solid #abc; padding:2px;border-radius: 20px;
+	box-shadow: 1px 1px 5px #abc;
+	color:#369;
+	text-shadow: 2px 2px 5px #999;
+}
+#content{max-width:1200px; text-align:center;margin:2px auto; font-size:12px;}
+#content > .lay{
+	border:3px solid #999; padding:5px;border-radius: 10px;
+}
+
+.file-list{}
+.pan{display:inline-block;
+	min-width:100px;
+	max-width:310px;
+	width:310px;
+}
+.pan dl,.pan dt, .pan dd{padding:0; margin:0;}
+.file-view{
+	border:1px solid #ccc; padding:5px 1px;border-radius:3px;
+	margin:3px 2px;
+	box-shadow: 1px 1px 5px #ccc;
+	
+}
+.file-view .thumnail{
+max-width:90%;
+min-height:40px;
+max-height:100px;
+overflow:hidden;
+display:block;
+margin:0 auto;
+}
+.thumnail img{
+max-width:100%; max-height:100%;
+}
+.file-view .file-name{margin:3px 2px;}
+
+@media (max-width: 1200px) {
+	.pan{width:310px;}
+}
+@media (max-width: 992px) {
+	.pan{width:50%;}
+}
+@media (max-width: 768px) {
+	.pan{width:50%;}
+}
+@media (max-width: 620px) {
+	.pan{width:100%;}
+}
+
