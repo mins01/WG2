@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<!-- 
+2015-06-07 : 제작시작
+임의사용 금지.
+
+-->
+<html lang="ko">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
+		<title>WG2</title>
+		<style>
+html{padding:0;margin:0}
+body{padding:0;margin:0;}
+*{box-sizing: border-box;}
+
+ul{padding:0;margin:0; list-style:none;}
+li{padding:0;margin:0;}
+
+		#header{
+			background: rgb(235,241,246);
+			background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 63%,rgba(0,0,0,0.13) 100%);
+		
+			text-align:center;
+			font-size:30px;
+			margin:0 auto;
+			padding:0 5px 15px 5px ;
+			max-width:1000px;
+			border:3px hidden #abc;
+			border-top-style: hidden;
+			border-top-left-radius:0em;
+			border-top-right-radius:0em;
+			border-bottom-right-radius:100%;
+			border-bottom-left-radius:100%;
+			box-shadow: 1px 1px 5px #999;
+			margin-bottom:10px;
+		}
+		#footer{
+			background: rgb(235,241,246);
+			background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 63%,rgba(0,0,0,0.13) 100%);
+		
+			text-align:center;
+			font-size:30px;
+			margin:0 auto;
+			padding:0 5px 15px 5px ;
+			max-width:1000px;
+			border:3px hidden #abc;
+			border-top-style: hidden;
+			border-top-left-radius:100%;
+			border-top-right-radius:100%;
+			border-bottom-right-radius:0;
+			border-bottom-left-radius:0;
+			box-shadow: 1px -1px 5px #999;
+			margin-top:10px;
+		}
+		#content{
+			background-color:#fff;
+			box-shadow: 1px 1px 5px #999  inset;
+			padding:2px;
+			text-align:center;
+			//float:left;
+			//clear:both;
+			//width:70%;
+		}
+		#content ul::after{
+			content:"";
+			display:block;
+			clear:both;
+			
+		}
+		
+		#content ul{
+			
+		}
+		#content .el{
+			display:inline-block;
+			
+			background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 63%,rgba(0,0,0,0.13) 100%);
+			
+			border-radius:10px;
+			
+			//float:left;
+			min-width:150px;max-width:200px;
+			//min-height:200px;max-height:200px;
+			margin:5px;
+			box-shadow: 1px 1px 5px #999;
+			overflow:hidden;
+		}
+
+		#content .el::before{
+			background: rgb(235,241,246);
+			background: linear-gradient(to bottom, rgba(254,255,255,1) 0%,rgba(221,241,249,1) 35%,rgba(160,216,239,1) 100%);
+			border:3px hidden #abc;
+			border-top-style: hidden;
+			border-top-left-radius:inherit;
+			border-top-right-radius:inherit;
+			border-bottom-right-radius:100%;
+			border-bottom-left-radius:100%;
+			padding:0 3px 5px 3px ;
+			
+			box-shadow: 1px 1px 5px #999;
+			content:attr(data-wg2-type)":"attr(data-wg2-basename);
+			display:block;
+			word-break:break-all;
+			margin-bottom:5px;
+		}
+		#content .el::after{
+			
+		}
+		/* 내용속 미리보기 이미지 */
+		#content .el img{
+			max-width:95%;
+		}
+		
+		/* 폴더 속 내용 */
+		#content .el .el{
+			width:45%;min-width:initial;
+			margin:5px 2px;
+			border-radius:5px;
+			box-shadow: 1px 0px 2px #ccc;
+		}
+		#content .el .el::before{content:"";display:none;}
+		</style>
+		
+	</head>
+	<body>
+		<header id="header">
+			/2015/12/*.png
+		</header>
+		<section id="content">
+			<ul data-wc2-dir="/">
+				<li class="el el-file" data-wg2-type="file" data-wg2-basename="xx123123123123123112312312312312332.xxxx">
+					<img src="http://www.mins01.com/web_work/web/WFL/_M.UI.FILELIST.down.php?file=%2F2012%2F01%2Funtitle_20120109233611.png&amp;inline=1">
+				</li>
+				<li class="el el-dir" data-wg2-type="file" data-wg2-basename="ssdasd.xxxx">
+					<ul>
+						<li class="el el-file" data-wg2-type="file" data-wg2-basename="xx123123123123123112312312312312332.xxxx">asasd</li>
+						<li class="el el-file" data-wg2-type="file" data-wg2-basename="xx123123123123123112312312312312332.xxxx">asasd</li>
+						
+					</ul>
+				</li>
+			</ul>
+		</section>
+		<footer  id="footer">
+			asd
+		</footer>
+  </body>
+</html>
