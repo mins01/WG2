@@ -12,43 +12,111 @@ html{padding:0;margin:0}
 body{padding:0;margin:0;}
 *{box-sizing: border-box;}
 
-#header{max-width:1000px; text-align:center;margin:2px auto; font-size:20px;}
-#header > .lay{
-	border:3px solid #abc; padding:2px;border-radius: 20px;
-	box-shadow: 1px 1px 5px #abc;
-	color:#369;
-	text-shadow: 2px 2px 5px #999;
-}
-#content{max-width:1200px; text-align:center;margin:2px auto; font-size:12px;}
-#content > .lay{
-	border:3px solid #999; padding:5px;border-radius: 10px;
-}
+ul{padding:0;margin:0; list-style:none;}
+li{padding:0;margin:0;}
 
-.file-list{}
-.pan{display:inline-block;
-	min-width:100px;
-	max-width:310px;
-	width:310px;
+#header{
+	background: rgb(235,241,246);
+	background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 63%,rgba(0,0,0,0.13) 100%);
+
+	text-align:center;
+	font-size:30px;
+	margin:0 auto;
+	padding:0 5px 15px 5px ;
+	//max-width:1000px;
+	border:3px hidden #abc;
+	border-top-style: hidden;
+	box-shadow: 1px 1px 5px #999;
+	//margin-bottom:10px;
 }
-.pan dl,.pan dt, .pan dd{padding:0; margin:0;}
-.file-view{
-	border:1px solid #ccc; padding:5px 1px;border-radius:3px;
-	margin:3px 2px;
-	box-shadow: 1px 1px 5px #ccc;
+#footer{
+	//background: rgb(235,241,246);
+	//background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 63%,rgba(0,0,0,0.13) 100%);
+
+	text-align:center;
+	font-size:30px;
+	margin:0 auto;
+	padding:0 5px 15px 5px ;
+	max-width:1000px;
+	border:3px hidden #abc;
+	border-top-style: hidden;
+	//box-shadow: 1px -1px 5px #999;
+	margin-top:10px;
+}
+#content{
+	background-color:#fff;
+	box-shadow: 1px 1px 5px #999  inset;
+	padding:2px;
+	text-align:center;
+	//float:left;
+	//clear:both;
+	//width:70%;
+}
+#content ul::after{
+	content:"";
+	display:block;
+	clear:both;
 	
 }
-.file-view .thumnail{
-max-width:90%;
-min-height:40px;
-max-height:100px;
-overflow:hidden;
-display:block;
-margin:0 auto;
+
+#content ul{
+	
 }
-.thumnail img{
-max-width:100%; max-height:100%;
+#content .finfo{
+	display:inline-block;
+	
+	background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 63%,rgba(0,0,0,0.13) 100%);
+	
+	border-radius:10px;
+	
+	//float:left;
+	min-width:150px;max-width:200px;
+	//min-height:200px;max-height:200px;
+	
+	margin:5px;
+	box-shadow: 1px 1px 5px #999;
+	overflow:hidden;
+	transition: all 0.5s ease-out;
 }
-.file-view .file-name{margin:3px 2px;}
+#content .finfo:hover{
+	box-shadow: 1px 1px 5px #f66;
+}
+#content .finfo::before{
+	background: rgb(235,241,246);
+	background: linear-gradient(to bottom, rgba(254,255,255,1) 0%,rgba(221,241,249,1) 35%,rgba(160,216,239,1) 100%);
+	border:3px hidden #abc;
+	border-top-style: hidden;
+	border-top-left-radius:inherit;
+	border-top-right-radius:inherit;
+	border-bottom-right-radius:0;
+	border-bottom-left-radius:0;
+	padding:0 3px 5px 3px ;
+	
+	box-shadow: 0px 1px 2px #999;
+	content:attr(data-wg2-type)":"attr(data-wg2-basename);
+	display:block;
+	word-break:break-all;
+	margin-bottom:5px;
+}
+#content .finfo::after{
+	
+}
+/* 내용속 미리보기 이미지 */
+#content .finfo img{
+	max-width:95%;
+	max-height:95%;
+}
+
+/* 폴더 속 내용 */
+#content .finfo .finfo{
+	width:45%;min-width:initial;
+	margin:5px 2px;
+	border-radius:5px;
+	box-shadow: 1px 0px 2px #ccc;
+}
+#content .finfo .finfo::before{
+font-size:smaller;
+}
 
 @media (max-width: 1200px) {
 	.pan{width:310px;}

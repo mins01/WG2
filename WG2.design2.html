@@ -27,19 +27,15 @@ li{padding:0;margin:0;}
 			font-size:30px;
 			margin:0 auto;
 			padding:0 5px 15px 5px ;
-			max-width:1000px;
+			//max-width:1000px;
 			border:3px hidden #abc;
 			border-top-style: hidden;
-			border-top-left-radius:0em;
-			border-top-right-radius:0em;
-			border-bottom-right-radius:100%;
-			border-bottom-left-radius:100%;
 			box-shadow: 1px 1px 5px #999;
-			margin-bottom:10px;
+			//margin-bottom:10px;
 		}
 		#footer{
-			background: rgb(235,241,246);
-			background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 63%,rgba(0,0,0,0.13) 100%);
+			//background: rgb(235,241,246);
+			//background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 63%,rgba(0,0,0,0.13) 100%);
 		
 			text-align:center;
 			font-size:30px;
@@ -48,11 +44,7 @@ li{padding:0;margin:0;}
 			max-width:1000px;
 			border:3px hidden #abc;
 			border-top-style: hidden;
-			border-top-left-radius:100%;
-			border-top-right-radius:100%;
-			border-bottom-right-radius:0;
-			border-bottom-left-radius:0;
-			box-shadow: 1px -1px 5px #999;
+			//box-shadow: 1px -1px 5px #999;
 			margin-top:10px;
 		}
 		#content{
@@ -74,7 +66,7 @@ li{padding:0;margin:0;}
 		#content ul{
 			
 		}
-		#content .el{
+		#content .finfo{
 			display:inline-block;
 			
 			background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 63%,rgba(0,0,0,0.13) 100%);
@@ -84,12 +76,16 @@ li{padding:0;margin:0;}
 			//float:left;
 			min-width:150px;max-width:200px;
 			//min-height:200px;max-height:200px;
+			
 			margin:5px;
 			box-shadow: 1px 1px 5px #999;
 			overflow:hidden;
+			transition: all 0.5s ease-out;
 		}
-
-		#content .el::before{
+		#content .finfo:hover{
+			box-shadow: 1px 1px 5px #f66;
+		}
+		#content .finfo::before{
 			background: rgb(235,241,246);
 			background: linear-gradient(to bottom, rgba(254,255,255,1) 0%,rgba(221,241,249,1) 35%,rgba(160,216,239,1) 100%);
 			border:3px hidden #abc;
@@ -106,22 +102,23 @@ li{padding:0;margin:0;}
 			word-break:break-all;
 			margin-bottom:5px;
 		}
-		#content .el::after{
+		#content .finfo::after{
 			
 		}
 		/* 내용속 미리보기 이미지 */
-		#content .el img{
+		#content .finfo img{
 			max-width:95%;
+			max-height:95%;
 		}
 		
 		/* 폴더 속 내용 */
-		#content .el .el{
+		#content .finfo .finfo{
 			width:45%;min-width:initial;
 			margin:5px 2px;
 			border-radius:5px;
 			box-shadow: 1px 0px 2px #ccc;
 		}
-		#content .el .el::before{content:"";display:none;}
+		#content .finfo .finfo::before{content:"";display:none;}
 		</style>
 		
 	</head>
@@ -131,13 +128,23 @@ li{padding:0;margin:0;}
 		</header>
 		<section id="content">
 			<ul data-wc2-dir="/">
-				<li class="el el-file" data-wg2-type="file" data-wg2-basename="xx123123123123123112312312312312332.xxxx">
+				<li class="finfo finfo-file" data-wg2-type="file" data-wg2-basename="xx123123123123123112312312312312332.xxxx">
 					<img src="http://www.mins01.com/web_work/web/WFL/_M.UI.FILELIST.down.php?file=%2F2012%2F01%2Funtitle_20120109233611.png&amp;inline=1">
 				</li>
-				<li class="el el-dir" data-wg2-type="file" data-wg2-basename="ssdasd.xxxx">
+				<li class="finfo finfo-dir" data-wg2-type="file" data-wg2-basename="ssdasd.xxxx">
 					<ul>
-						<li class="el el-file" data-wg2-type="file" data-wg2-basename="xx123123123123123112312312312312332.xxxx">asasd</li>
-						<li class="el el-file" data-wg2-type="file" data-wg2-basename="xx123123123123123112312312312312332.xxxx">asasd</li>
+						<li class="finfo finfo-file" data-wg2-type="file" data-wg2-basename="xx123123123123123112312312312312332.xxxx">
+							<img src="http://www.mins01.com/web_work/web/WFL/_M.UI.FILELIST.down.php?file=%2F2012%2F01%2Funtitle_20120109233611.png&amp;inline=1">
+						</li>
+						<li class="finfo finfo-file" data-wg2-type="file" data-wg2-basename="xx123123123123123112312312312312332.xxxx">
+							<img src="http://www.mins01.com/web_work/web/WFL/_M.UI.FILELIST.down.php?file=%2F2012%2F01%2Funtitle_20120109233611.png&amp;inline=1">
+						</li>
+						<li class="finfo finfo-file" data-wg2-type="file" data-wg2-basename="xx123123123123123112312312312312332.xxxx">
+							<img src="http://www.mins01.com/web_work/web/WFL/_M.UI.FILELIST.down.php?file=%2F2012%2F01%2Funtitle_20120109233611.png&amp;inline=1">
+						</li>
+						<li class="finfo finfo-file" data-wg2-type="file" data-wg2-basename="xx123123123123123112312312312312332.xxxx">
+							<img src="http://www.mins01.com/web_work/web/WFL/_M.UI.FILELIST.down.php?file=%2F2012%2F01%2Funtitle_20120109233611.png&amp;inline=1">
+						</li>
 						
 					</ul>
 				</li>

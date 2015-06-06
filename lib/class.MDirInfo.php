@@ -42,12 +42,12 @@ class MDirInfo{
 		$this->baseDir = $baseDir;
 	}
 	function fileListAtBase($iDir,$depth=1,$sort=false){
-		$dir = realpath($this->baseDir.$iDir);
+		$dir = realpath($this->baseDir.'/'.$iDir);
 		return $this->fileList($dir,$depth,$sort);
 	}
 	function fileList($dir,$depth=1,$sort=false){
 		if(!is_dir($dir)){
-			$this->error = 'not exists dir : '.$iDir;
+			$this->error = 'not exists dir : '.$dir;
 			return false;
 		}
 		if($depth<1){
