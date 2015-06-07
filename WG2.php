@@ -99,15 +99,18 @@ if(MHeader::etag($etag)){
 		</header>
 		<section id="content">
 			<input type="button" onclick="wg2.appendNode()" value="증가">
+			<input type="button" onclick="wg2.showPreview()" value="증가">
 			<div data-wc2-dir="/" id="pNode">
 
 			</div>
 			<input type="button" onclick="wg2.appendNode()" value="증가">
+			<input type="button" onclick="wg2.showPreview()" value="증가">
+			
 		</section>
 		<footer  id="footer">
 			
 		</footer>
-		
+		<div id="postBottom"> 최고 밑 부분에 계속 붙어 있어야한다.</div>
 		<section  id="hidden-section">
 			
 			<div id="defNode" class="finfo finfo-file" data-wg2-type="file" data-wg2-basename="<?=htmlspecialchars($r['basename'])?>">
@@ -117,17 +120,23 @@ if(MHeader::etag($etag)){
 				</div>
 			</div>
 			
-		</section>
+		</section><div style="position:absolute">xx</div>
 		
 		<!-- script  -->
 		<script src="js/wg2.js"></script>
 		<script>
 		wg2.init();
 		wg2.putRows(finfo);
-		wg2.appendNode();
-		wg2.appendNode();
-		wg2.appendNode();
-		wg2.appendNode();
+		while(wg2.appendNode()){
+		}
+		//wg2.showPreview();
+		document.onmousewheel = function(){
+			wg2.showPreview();
+		}
+		document.onscroll = function(){
+			wg2.showPreview();
+		}
+		wg2.showPreview();
 		</script>
   </body>
 </html>

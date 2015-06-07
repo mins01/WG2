@@ -38,7 +38,9 @@ var wg2 = (function(){
 				node.img = img;
 				node.img.alt = row['basename'];
 				if(row['is_image']){
-					node.img.src = row['preview'];
+					//node.img.src = row['preview'];
+					node.img.dataset.wg2Preview = row['preview'];
+					node.img.dataset.wg2Ispreview = "0";
 				}
 				a.href =  row['preview'];
 				a.target="_blank";
@@ -67,6 +69,74 @@ var wg2 = (function(){
 			}
 			var n = this.createNode(this.rows[i])
 			this.pNode.appendChild(n);
-		}
+			return true;
+		},
+		"boundInfo":function(el){
+			var ret = {}; 
+			var sl = this.scrollInfo();
+			var rect = el.getBoundingClientRect(); 
+			///*
+			ret.width = rect.right - rect.left; 
+			ret.height = rect.bottom - rect.top; 
+			ret.left = rect.left + sl.left
+			ret.top = rect.top + sl.top;
+			ret.bottom = rect.bottom + sl.top;
+			//*/
+			//ret = rect;
+			return ret;
+		},
+		"scrollInfo":function(){
+			return {
+			  "left":document.documentElement.scrollLeft||document.body.scrollLeft
+			 ,"top":document.documentElement.scrollTop||document.body.scrollTop
+			 ,"width":document.documentElement.scrollWidth||document.body.scrollWidth
+			 ,"height":document.documentElement.scrollHeight||document.body.scrollHeight
+			}
+		},
+		//-- 스크롤이 오면 이미지 보여주기
+		"showPreview":function(){
+			var els = document.querySelectorAll("img[data-wg2-Ispreview='0']");
+			//alert(els.length);
+			var postBottom = document.getElementById('postBottom');
+			var pbRet = this.boundInfo(postBottom);
+			
+			var scInfo = this.scrollInfo();
+			var scT = scInfo.top;
+			var scB = scInfo.top+pbRet.bottom;
+			var scTop = scInfo.height-scInfo.top;
+			
+			for(var i=0,m=els.length;i<m;i++){
+				var el = els[i];
+				var ret = this.boundInfo(el);
+				if( el.dataset.wg2Ispreview  != "0"){
+					continue;
+				}else if((scInfo.top <= ret.top && ret.top<= pbRet.bottom)
+					|| (scInfo.top <= ret.bottom && ret.bottom<= pbRet.bottom)
+					){
+					//console.log("보임");
+					el.src=el.dataset.wg2Preview;
+					el.dataset.wg2Ispreview = "1";
+				}else{
+					//console.log("x보임");
+				}
+			}
+			
+			
+		
+/*
+			var retTop = ret.top;
+			console.log(ret);
+			console.log(scInfo);
+			if(
+			if(scTop>=retTop){
+				console.log("안보임");
+			}else{
+				console.log("보임");
+			}
+*/
+			/*
+			
+			*/
+		},
 	}
 })()
