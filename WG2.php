@@ -7,6 +7,7 @@ require_once($_WG2_ROOT.'/lib/class.MHeader.php');
 $var = isset($_REQUEST['var'])?$_REQUEST['var']:'finfo';
 $dir = isset($_REQUEST['dir'])?$_REQUEST['dir']:'.';
 if(strpos($dir,'/')===0){ $dir = substr($dir,1); }
+$dir = str_replace('..','.',$dir);
 $upDir = dirname($dir);
 
 
@@ -30,7 +31,7 @@ foreach($rows as & $v){
 	unset($v['path'],$v['dirname']); //불필요 정보 삭제
 	$v['type'] = $v['is_dir']?'dir':'file';//dir과 file만 
 	$path = $dir.'/'.$v['basename'];
-	$v['preview'] = $v['is_dir']?$previewDir:'http://wwwdev.mins01.com/web_work/web/WG/WG.down.php?mode=view&path='.$path;
+	$v['preview'] = $v['is_dir']?$previewDir:'/web_work/web/WG/WG.down.php?mode=view&path='.$path;
 	if(isset($v['in_contents'])){
 		$v['in_contents_count'] = count($v['in_contents']);
 		$v['in_contents'] = array_slice($v['in_contents'],0,$_WG2_CFG['dirContentLimit']);
@@ -38,7 +39,7 @@ foreach($rows as & $v){
 			$v2['type'] = $v2['is_dir']?'dir':'file';//dir과 file만 
 			unset($v2['path'],$v2['dirname']); //불필요 정보 삭제
 			$path2 = $path.'/'.$v2['basename'];
-			$v2['preview'] = $v2['is_dir']?$previewDir:'http://wwwdev.mins01.com/web_work/web/WG/WG.down.php?mode=view&path='.$path2;
+			$v2['preview'] = $v2['is_dir']?$previewDir:'/web_work/web/WG/WG.down.php?mode=view&path='.$path2;
 		}
 	}
 	
