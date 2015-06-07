@@ -1,26 +1,44 @@
 <?
 require_once('conf/inc.conf.php');
 require_once($_WG2_ROOT.'/lib/class.MDirInfo.php');
+require_once($_WG2_ROOT.'/lib/class.MHeader.php');
+
+
+$var = isset($_REQUEST['var'])?$_REQUEST['var']:'finfo';
+$dir = isset($_REQUEST['dir'])?$_REQUEST['dir']:'.';
+if(strpos($dir,'/')===0){ $dir = substr($dir,1); }
+$upDir = dirname($dir);
+
+
 
 
 $mdi = new MDirInfo();
 $mdi->sortF = 'mtime';
 $mdi->sortR = 1;
 
+$previewDir = '/web_work/web/WFL/_M.UI.FILELIST.down.php?file=%2F2012%2F01%2Funtitle_20120109233611.png&inline=1';
+
 $mdi->setBaseDir($_WG2_CFG['baseDir']);
 
-$rows = $mdi->fileListAtBase('./',2,true);
+$rows = $mdi->fileListAtBase($dir,2,true);
 if($rows==false){
 	echo $mdi->error;
+	exit();
 }
 //-- 폴더 속 파일 수 제한하기
 foreach($rows as & $v){
 	unset($v['path'],$v['dirname']); //불필요 정보 삭제
-	if(isset($v['contents'])){
-		$v['contents_count'] = count($v['contents']);
-		$v['contents'] = array_slice($v['contents'],0,$_WG2_CFG['dirContentLimit']);
-		foreach($v['contents'] as & $v2){
+	$v['type'] = $v['is_dir']?'dir':'file';//dir과 file만 
+	$path = $dir.'/'.$v['basename'];
+	$v['preview'] = $v['is_dir']?$previewDir:'http://wwwdev.mins01.com/web_work/web/WG/WG.down.php?mode=view&path='.$path;
+	if(isset($v['in_contents'])){
+		$v['in_contents_count'] = count($v['in_contents']);
+		$v['in_contents'] = array_slice($v['in_contents'],0,$_WG2_CFG['dirContentLimit']);
+		foreach($v['in_contents'] as & $v2){
+			$v2['type'] = $v2['is_dir']?'dir':'file';//dir과 file만 
 			unset($v2['path'],$v2['dirname']); //불필요 정보 삭제
+			$path2 = $path.'/'.$v2['basename'];
+			$v2['preview'] = $v2['is_dir']?$previewDir:'http://wwwdev.mins01.com/web_work/web/WG/WG.down.php?mode=view&path='.$path2;
 		}
 	}
 	
@@ -28,6 +46,21 @@ foreach($rows as & $v){
 
 //print_r($rows);
 
+
+//-- 웹캐시 설정
+$sec = 60*60;
+$etag = date('Hi').ceil(date('s')/$sec).md5( serialize($rows));
+MHeader::expires($sec);
+$msgs = array();
+if(MHeader::etag($etag)){
+	//$msgs[] = 'etag 동작';//실제 출력되지 않는다.(304 발생이 되기 때문에)
+	//exit('etag 동작');
+}else if(MHeader::lastModified($sec)){
+	//$msgs[] = 'lastModified 동작'; //실제 출력되지 않는다.(304 발생이 되기 때문에)
+	//exit('lastModified 동작');
+}
+
+//--
 
 
 ?><!DOCTYPE html>
@@ -43,73 +76,58 @@ foreach($rows as & $v){
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
 		<title>WG2</title>
-		<link rel="stylesheet" type="text/css" href="css/WG2.css" />
+		
+		<!-- 합쳐지고 최소화된 최신 CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 
+		<!-- 부가적인 테마 -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+		
+		<link rel="stylesheet" type="text/css" href="css/wg2.css" />
+		<script>
+		//<!--
+		
+		<? echo 'var ',$var,'=',json_encode($rows); ?>
+		
+		//-->
+		</script>
 		
 	</head>
 	<body>
 		<header id="header">
-			/2015/12/*.png
+			<a type="button" class="btn btn-default glyphicon glyphicon-level-up" href="?dir=<?=htmlspecialchars($upDir)?>"></a> /<?=htmlspecialchars($dir)?> (<?=count($rows)?> files)
 		</header>
 		<section id="content">
-			<ul data-wc2-dir="/">
-			
-				<?
-				foreach($rows as $r){
-					if($r['is_file']){
-				?>
-					<li class="finfo finfo-file" data-wg2-type="file" data-wg2-basename="<?=htmlspecialchars($r['basename'])?>">
-						<img src="http://www.mins01.com/web_work/web/WFL/_M.UI.FILELIST.down.php?file=%2F2012%2F01%2Funtitle_20120109233611.png&amp;inline=1">
-					</li>
-				<? 
-					}else if($r['is_dir']){
-					?>
-						<li class="finfo finfo-dir" data-wg2-type="dir" data-wg2-basename="<?=htmlspecialchars($r['basename'].'('.$r['contents_count'].')')?>">
-							<ul>
-								<? 
-								foreach($r['contents'] as $r2){ 
-									if($r2['is_file']){
-								?>
-								<li class="finfo finfo-file" data-wg2-type="file" data-wg2-basename="<?=htmlspecialchars($r2['basename'])?>">
-									<img src="http://www.mins01.com/web_work/web/WFL/_M.UI.FILELIST.down.php?file=%2F2012%2F01%2Funtitle_20120109233611.png&amp;inline=1">
-								</li>
-								<? 
-									}else if($r['is_dir']){
-								?>
-								<li class="finfo finfo-dir" data-wg2-type="dir"  data-wg2-basename="<?=htmlspecialchars($r2['basename'].'('.$r2['contents_count'].')')?>">
-									DIR
-								</li>
-								<?
-									}
-								}
-								?>
-							</ul>
-						</li>
-					<?
-					}
-				} 
-				?>
-				<li class="finfo finfo-dir" data-wg2-type="file" data-wg2-basename="ssdasd.xxxx">
-					<ul>
-						<li class="finfo finfo-file" data-wg2-type="file" data-wg2-basename="xx123123123123123112312312312312332.xxxx">
-							<img src="http://www.mins01.com/web_work/web/WFL/_M.UI.FILELIST.down.php?file=%2F2012%2F01%2Funtitle_20120109233611.png&amp;inline=1">
-						</li>
-						<li class="finfo finfo-file" data-wg2-type="file" data-wg2-basename="xx123123123123123112312312312312332.xxxx">
-							<img src="http://www.mins01.com/web_work/web/WFL/_M.UI.FILELIST.down.php?file=%2F2012%2F01%2Funtitle_20120109233611.png&amp;inline=1">
-						</li>
-						<li class="finfo finfo-file" data-wg2-type="file" data-wg2-basename="xx123123123123123112312312312312332.xxxx">
-							<img src="http://www.mins01.com/web_work/web/WFL/_M.UI.FILELIST.down.php?file=%2F2012%2F01%2Funtitle_20120109233611.png&amp;inline=1">
-						</li>
-						<li class="finfo finfo-file" data-wg2-type="file" data-wg2-basename="xx123123123123123112312312312312332.xxxx">
-							<img src="http://www.mins01.com/web_work/web/WFL/_M.UI.FILELIST.down.php?file=%2F2012%2F01%2Funtitle_20120109233611.png&amp;inline=1">
-						</li>
-						
-					</ul>
-				</li>
-			</ul>
+			<input type="button" onclick="wg2.appendNode()" value="증가">
+			<div data-wc2-dir="/" id="pNode">
+
+			</div>
+			<input type="button" onclick="wg2.appendNode()" value="증가">
 		</section>
 		<footer  id="footer">
-			asd
+			
 		</footer>
+		
+		<section  id="hidden-section">
+			
+			<div id="defNode" class="finfo finfo-file" data-wg2-type="file" data-wg2-basename="<?=htmlspecialchars($r['basename'])?>">
+				<a class="title" id="" href="#"></a>
+				<div class="previewbox">
+					<img src="http://www.mins01.com/web_work/web/WFL/_M.UI.FILELIST.down.php?file=%2F2012%2F01%2Funtitle_20120109233611.png&amp;inline=1">
+				</div>
+			</div>
+			
+		</section>
+		
+		<!-- script  -->
+		<script src="js/wg2.js"></script>
+		<script>
+		wg2.init();
+		wg2.putRows(finfo);
+		wg2.appendNode();
+		wg2.appendNode();
+		wg2.appendNode();
+		wg2.appendNode();
+		</script>
   </body>
 </html>

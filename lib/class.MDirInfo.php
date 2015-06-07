@@ -29,23 +29,35 @@ class MDirInfo{
 		$info['is_link'] = is_link($path);
 		$info['is_readable'] = is_readable($path);
 		$info['is_writable'] = is_writable($path);
+		$info['is_image'] = isset($info['extension'])?$this->is_image($info['extension']):false;
 		$info['size'] = sprintf('%u',$stat['size']);
 		$info['atime'] = $stat['atime'];
 		$info['mtime'] = $stat['mtime'];
 		$info['ctime'] = $stat['ctime'];
+		$info['rel_path'] = str_replace('\\','/',str_replace($this->baseDir,'',$info['path']));
+		//$info['rel_path'] = strpos($info['path'],$this->baseDir).$info['path'].";".$this->baseDir;
 		//	print_r(stat($path));
 		//print_r($info);	
 		return $info;
 
 	}
+	function is_image($extension){
+		$img_patten = '/^(png|jpg|jpeg|gif)$/i';
+		return preg_match($img_patten,$extension);
+	}
 	function setBaseDir($baseDir){
-		$this->baseDir = $baseDir;
+		$this->baseDir = realpath($baseDir);
 	}
 	function fileListAtBase($iDir,$depth=1,$sort=false){
 		$dir = realpath($this->baseDir.'/'.$iDir);
+		if(!is_dir($dir)){
+			$this->error = 'not exists dir : '.$iDir;
+			return false;
+		}
 		return $this->fileList($dir,$depth,$sort);
 	}
 	function fileList($dir,$depth=1,$sort=false){
+
 		if(!is_dir($dir)){
 			$this->error = 'not exists dir : '.$dir;
 			return false;
@@ -63,9 +75,9 @@ class MDirInfo{
 			$row = $this->stat($path);
 			if($row['is_dir']){
 				if($depth>0){
-					$row['contents'] = $this->fileList($path, ($depth-1),$sort);//하위 파일,폴더
+					$row['in_contents'] = $this->fileList($path, ($depth-1),$sort);//하위 파일,폴더
 				}else{
-					$row['contents'] = null;//하위 파일,폴더
+					$row['in_contents'] = null;//하위 파일,폴더
 				}
 			}
 			$rows[] = $row;
