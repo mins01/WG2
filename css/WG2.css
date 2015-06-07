@@ -140,7 +140,7 @@ font-size:smaller;
 #hidden-section{display:none;}
 
 
-#postBottom{position:fixed;bottom:0; height:10px; overflow:hidden; }
+#postBottom{position:fixed;bottom:0; height:0px;width:0px; overflow:hidden; }
 
 @media (max-width: 1200px) {
 	.pan{width:310px;}

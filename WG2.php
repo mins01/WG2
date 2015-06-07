@@ -98,14 +98,9 @@ if(MHeader::etag($etag)){
 			<a type="button" class="btn btn-default glyphicon glyphicon-level-up" href="?dir=<?=htmlspecialchars($upDir)?>"></a> /<?=htmlspecialchars($dir)?> (<?=count($rows)?> files)
 		</header>
 		<section id="content">
-			<input type="button" onclick="wg2.appendNode()" value="증가">
-			<input type="button" onclick="wg2.showPreview()" value="증가">
 			<div data-wc2-dir="/" id="pNode">
 
 			</div>
-			<input type="button" onclick="wg2.appendNode()" value="증가">
-			<input type="button" onclick="wg2.showPreview()" value="증가">
-			
 		</section>
 		<footer  id="footer">
 			
@@ -120,7 +115,7 @@ if(MHeader::etag($etag)){
 				</div>
 			</div>
 			
-		</section><div style="position:absolute">xx</div>
+		</section>
 		
 		<!-- script  -->
 		<script src="js/wg2.js"></script>

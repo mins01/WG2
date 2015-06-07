@@ -120,23 +120,6 @@ var wg2 = (function(){
 					//console.log("x보임");
 				}
 			}
-			
-			
-		
-/*
-			var retTop = ret.top;
-			console.log(ret);
-			console.log(scInfo);
-			if(
-			if(scTop>=retTop){
-				console.log("안보임");
-			}else{
-				console.log("보임");
-			}
-*/
-			/*
-			
-			*/
 		},
 	}
 })()
