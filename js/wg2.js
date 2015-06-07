@@ -24,9 +24,10 @@ var wg2 = (function(){
 			a.id="node-"+row['rel_path'];
 			a.href="#node-"+row['rel_path'];
 			a.title = row['basename'];
-			a.appendChild(document.createTextNode(row['basename']));
+			
 			//node.title = row['basename'];
 			if(row['is_dir']){
+				a.appendChild(document.createTextNode(row['basename']+" ("+row['in_contents_count']+")"));
 				img.parentNode.removeChild(img);
 				a.href="?dir="+row['rel_path'];
 				if(row['in_contents'] && row['in_contents'].length > 0){
@@ -35,6 +36,7 @@ var wg2 = (function(){
 					previewbox.appendChild(document.createTextNode("[DIR] "+row['basename']));
 				}
 			}else{
+				a.appendChild(document.createTextNode(row['basename']));
 				node.img = img;
 				node.img.alt = row['basename'];
 				if(row['is_image']){
