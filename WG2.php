@@ -16,6 +16,7 @@ $upDir = dirname($dir);
 $mdi = new MDirInfo();
 $mdi->sortF = 'mtime';
 $mdi->sortR = 1;
+//$mdi->allowExt = allowExt
 
 $previewDir = '/web_work/web/WFL/_M.UI.FILELIST.down.php?file=%2F2012%2F01%2Funtitle_20120109233611.png&inline=1';
 
@@ -26,6 +27,11 @@ if($rows==false){
 	echo $mdi->error;
 	exit();
 }
+
+//-- 확장자 제한하기
+$rows = $mdi->filter_extension($rows,$_WG2_CFG['allowExt']);
+
+
 //-- 폴더 속 파일 수 제한하기
 foreach($rows as & $v){
 	unset($v['path'],$v['dirname']); //불필요 정보 삭제
@@ -39,7 +45,7 @@ foreach($rows as & $v){
 			$v2['type'] = $v2['is_dir']?'dir':'file';//dir과 file만 
 			unset($v2['path'],$v2['dirname']); //불필요 정보 삭제
 			$path2 = $path.'/'.$v2['basename'];
-			$v2['preview'] = $v2['is_dir']?$previewDir:'./down.php?rel_path='.$v['rel_path'];
+			$v2['preview'] = $v2['is_dir']?$previewDir:'./down.php?rel_path='.$v2['rel_path'];
 		}
 	}
 	
@@ -49,8 +55,8 @@ foreach($rows as & $v){
 
 
 //-- 웹캐시 설정
-$sec = 60*60;
-$etag = date('Hi').ceil(date('s')/$sec).md5( serialize($rows));
+$sec = 60*1;
+$etag =  floor(time()/$sec).md5( serialize($rows));
 MHeader::expires($sec);
 $msgs = array();
 if(MHeader::etag($etag)){

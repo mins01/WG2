@@ -24,6 +24,12 @@ class MDirInfo{
 		$info = array();
 		$info['path'] = $path;
 		$info = array_merge($info,pathinfo($path));
+		/*
+		$info['dirname'], "\n";
+		$info['basename'], "\n";
+		$info['extension'], "\n";
+		$info['filename'], "\n"; // since PHP 5.2.0
+		*/
 		$info['is_file'] = is_file($path);
 		$info['is_dir'] = is_dir($path);
 		$info['is_link'] = is_link($path);
@@ -140,10 +146,18 @@ class MDirInfo{
 		}
 	}
 	//=== 필터
-	function filter_only_file($iRows){
+	function filter_extension($iRows,$allowExt='*'){
+		$exts = explode(';',strtolower($allowExt));
 		$rows = array();
 		foreach($iRows as $v){
-			if($v['is_file']){
+			if($v['is_dir']){
+				$rows[] = $v;
+				if(isset($v['in_contents'])){
+					$v['in_contents'] = $this->filter_extension($v['in_contents']);
+				}
+			}else if($allowExt == '*'){
+				$rows[] = $v;
+			}else if($v['is_file'] && in_array(strtolower($v['extension']),$exts)){
 				$rows[] = $v;
 			}
 		}
