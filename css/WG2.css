@@ -70,7 +70,7 @@ li{padding:0;margin:0;}
 	border-radius:10px;
 	
 	//float:left;
-	//min-width:150px;max-width:300px;
+	min-width:100px;max-width:300px;
 	//min-height:200px;//max-height:200px;
 	
 	margin:5px;
@@ -121,7 +121,8 @@ li{padding:0;margin:0;}
 
 /* 폴더 속 내용 */
 #content .finfo .finfo{
-	width:45%;min-width:initial;
+	min-width:70px;
+	width:45%;
 	margin:5px 2px;
 	border-radius:5px;
 	box-shadow: 1px 0px 2px #ccc;

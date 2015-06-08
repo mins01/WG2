@@ -151,10 +151,10 @@ class MDirInfo{
 		$rows = array();
 		foreach($iRows as $v){
 			if($v['is_dir']){
-				$rows[] = $v;
 				if(isset($v['in_contents'])){
-					$v['in_contents'] = $this->filter_extension($v['in_contents']);
+					$v['in_contents'] = $this->filter_extension($v['in_contents'],$allowExt);
 				}
+				$rows[] = $v;
 			}else if($allowExt == '*'){
 				$rows[] = $v;
 			}else if($v['is_file'] && in_array(strtolower($v['extension']),$exts)){
