@@ -55,18 +55,19 @@ foreach($rows as & $v){
 
 
 //-- 웹캐시 설정
-$sec = 60*1;
-$etag =  floor(time()/$sec).md5( serialize($rows));
+/*
+$sec = 10;
+//$etag =  floor(time()/$sec).md5( serialize($rows));
 MHeader::expires($sec);
 $msgs = array();
-if(MHeader::etag($etag)){
+if(false && MHeader::etag($etag)){
 	//$msgs[] = 'etag 동작';//실제 출력되지 않는다.(304 발생이 되기 때문에)
 	//exit('etag 동작');
 }else if(MHeader::lastModified($sec)){
 	//$msgs[] = 'lastModified 동작'; //실제 출력되지 않는다.(304 발생이 되기 때문에)
 	//exit('lastModified 동작');
 }
-
+*/
 //--
 
 
@@ -139,7 +140,7 @@ if(MHeader::etag($etag)){
 		document.onscroll = function(){
 			wg2.showPreview();
 		}
-		window.onresize = function()
+		window.onresize = function(){
 			wg2.showPreview();
 		}
 		wg2.showPreview();

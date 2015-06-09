@@ -26,7 +26,7 @@ var wg2 = (function(){
 			a.title = row['basename'];
 			
 			var editurl = node.getElementsByClassName('editurl')[0];
-			console.log(row['basename'],row['editurl']);
+			//console.log(row['basename'],row['editurl']);
 			if(row['editurl'] == undefined){
 				editurl.parentNode.removeChild(editurl);
 			}else{
@@ -58,7 +58,7 @@ var wg2 = (function(){
 					node.img.dataset.wg2Previewurl = row['previewurl'];
 					node.img.dataset.wg2Ispreview = "0";
 				}
-				a.href =  row['viewurl'];
+				a.href =  row['downurl'];
 				a.target="_blank";
 				img_a.href =  row['viewurl'];
 				img_a.target="_blank";
