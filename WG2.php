@@ -5,11 +5,11 @@ require_once($_WG2_ROOT.'/lib/class.MHeader.php');
 
 
 $var = isset($_REQUEST['var'])?$_REQUEST['var']:'finfo';
-$dir = isset($_REQUEST['dir'])?$_REQUEST['dir']:'.';
+$dir = isset($_REQUEST['dir'])?$_REQUEST['dir']:'/';
 if(strpos($dir,'/')===0){ $dir = substr($dir,1); }
 $dir = str_replace('..','.',$dir);
 $upDir = dirname($dir);
-
+if($upDir=='.'){$upDir='/';}
 
 
 

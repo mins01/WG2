@@ -6,7 +6,7 @@
 */
 /*
 * # warning
-* '공대여자는 이쁘다.'를 나타내야만 사용할 수 있습니다.
+* '공대여자는 이쁘다'를 나타내야만 사용하실 수 있습니다.
 */
 html{padding:0;margin:0}
 body{padding:0;margin:0;}
@@ -46,7 +46,7 @@ li{padding:0;margin:0;}
 #content{
 	background-color:#fff;
 	box-shadow: 1px 1px 5px #999  inset;
-	padding:2px;
+	padding:2px 0px;
 	text-align:center;
 	//float:left;
 	//clear:both;
@@ -116,19 +116,17 @@ li{padding:0;margin:0;}
 	height:150px;
 	overflow:hidden;
 }
-/* 내용속 미리보기 이미지 */
+/* 미리보기 이미지  */
 #content .finfo .previewbox img{
 	max-width:100%;
 	max-height:100%;
 }
 
-/* 폴더 속 내용 */
+/* 속에 속 */
 #content .finfo .finfo{
 	min-width: initial;
-	width: initial;
-	width:45%;
-	margin:5px 2px;
-	border-radius:5px;
+	width:72px;
+	margin:1px;
 	box-shadow: 1px 0px 2px #ccc;
 }
 #content .finfo .finfo  a.title{
@@ -143,22 +141,24 @@ font-size:smaller;
 	height:70px;
 }
 
-/* 숨기기 */
+/*  */
 #hidden-section{display:none;}
 
 
 #postBottom{position:fixed;bottom:0; height:0px;width:0px; overflow:hidden; }
 
 @media (max-width: 1200px) {
-	.pan{width:310px;}
+	
 }
 @media (max-width: 992px) {
-	.pan{width:50%;}
+
 }
 @media (max-width: 768px) {
-	.pan{width:50%;}
+	*::-webkit-scrollbar {
+	  width: 0px;
+	}
 }
 @media (max-width: 620px) {
-	.pan{width:100%;}
+	
 }
 

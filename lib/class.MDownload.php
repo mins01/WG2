@@ -85,17 +85,15 @@ class MDownload{
 			$this->error = "not exists file. ({$path})";
 			return false;
 		}
-		
 		foreach($this->header as $k=>$v){
 			header("{$k}: {$v}");
 		}
 		$fp = fopen($this->path,'r+') ;
 		while (!feof($fp)) {
 			set_time_limit(30);	//타임아웃 30씩 :30초가 지났는데도 문제가 있다면 파일읽어오는 데 문제가 있다!
-			echo fgets($fp, 1024);
+			echo fgets($fp, 4096);
 		}
 		fclose($fp);
-		
 	}
 }
 
