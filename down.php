@@ -6,7 +6,7 @@ require_once($_WG2_ROOT.'/lib/class.MDownload.php');
 $baseDir = $_WG2_CFG['baseDir'];
 
 $rel_path = isset($_REQUEST['rel_path'])?$_REQUEST['rel_path']:'';
-str_replace('..','.',$rel_path);
+$rel_path = str_replace('..','.',$rel_path);
 if(!isset($rel_path[0])){
 	header("HTTP/1.0 400 Bad Request");
 	exit();
@@ -14,11 +14,13 @@ if(!isset($rel_path[0])){
 $path = $baseDir.'/'.$rel_path;
 
 $mdown = new MDownload();
+/*
 $r = $mdown->setPath($path);
 if($r == false){
 	header("HTTP/1.0 404 Not Found");
 	exit($mdown->error);
 }
+*/
 
 
 
@@ -35,7 +37,7 @@ if(MHeader::etag($etag)){
 	//exit('lastModified µ¿ÀÛ');
 }
 
-$r = $mdown->download();
+$r = $mdown->download($path);
 if($r == false){
 	header("HTTP/1.0 404 Not Found");
 	exit($mdown->error);

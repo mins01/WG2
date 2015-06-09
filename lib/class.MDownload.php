@@ -37,7 +37,7 @@ class MDownload{
 		$this->reset();
 		$this->path = $path;
 		$this->header['Content-Length'] = sprintf('%u',@filesize($path));
-		if(!isset($name)){
+		if(!isset($name[0])){
 			$name = basename($this->path);
 		}
 		$this->setName($name);
@@ -51,7 +51,7 @@ class MDownload{
 	function strContentDisposition($inline,$name=null){
 		$t = array();
 		$t[] = ($this->inline?'inline':'attachment');
-		if(!isset($name)){
+		if(!isset($name[0])){
 			$name = $this->name;
 		}
 		if(isset($name[0])){
@@ -80,7 +80,11 @@ class MDownload{
 			break;
 		}
 	}
-	function download(){
+	function download($path=null,$name='',$inline='inline'){
+		if(isset($path[0])){
+			$this->setPath($path,$name);
+			$this->strContentDisposition($inline,$name);
+		}
 		if(!is_file($this->path)){
 			$this->error = "not exists file. ({$path})";
 			return false;
