@@ -104,7 +104,7 @@ if(MHeader::etag($etag)){
 		<header id="header">
 			<a type="button" class="btn btn-default glyphicon glyphicon-level-up" href="?dir=<?=htmlspecialchars($upDir)?>"></a> /<?=htmlspecialchars($dir)?> (<?=count($rows)?> files)
 		</header>
-		<section id="content">
+		<section id="file-contents">
 			<div data-wc2-dir="/" id="pNode">
 
 			</div>
@@ -119,6 +119,7 @@ if(MHeader::etag($etag)){
 				<a class="title" id="" href="#"></a>
 				<div class="previewbox">
 					<a><img src="http://www.mins01.com/web_work/web/WFL/_M.UI.FILELIST.down.php?file=%2F2012%2F01%2Funtitle_20120109233611.png&amp;inline=1"></a>
+					<a class="editurl btn btn-default glyphicon glyphicon-edit" href="#" title="edit" onclick="return confirm('수정하시겠습니까?')"></a>
 				</div>
 			</div>
 			

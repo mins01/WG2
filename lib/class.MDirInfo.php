@@ -21,7 +21,9 @@ class MDirInfo{
 	function  __construct(){
 	}
 	function setConfigExtension($cnfExt){
-		return $this->cnfExt = array_merge($this->cnfExt,$cnfExt);
+		foreach($cnfExt as $k=>$v){
+			$this->cnfExt[$k] = array_merge($this->cnfExt['#DEF#'],$v);
+		}
 	}
 	function getConfigExtension($ext){
 		$ext = strtolower($ext);

@@ -43,7 +43,7 @@ li{padding:0;margin:0;}
 	//box-shadow: 1px -1px 5px #999;
 	margin-top:10px;
 }
-#content{
+#file-contents{
 	background-color:#fff;
 	box-shadow: 1px 1px 5px #999  inset;
 	padding:2px 0px;
@@ -52,17 +52,17 @@ li{padding:0;margin:0;}
 	//clear:both;
 	//width:70%;
 }
-#content ul::after{
+#file-contents ul::after{
 	content:"";
 	display:block;
 	clear:both;
 	
 }
 
-#content ul{
+#file-contents ul{
 	
 }
-#content .finfo{
+#file-contents .finfo{
 	display:inline-block;
 	
 	background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 63%,rgba(0,0,0,0.13) 100%);
@@ -78,14 +78,14 @@ li{padding:0;margin:0;}
 	overflow:hidden;
 	transition: all 0.5s ease-out;
 }
-#content .finfo-dir{
+#file-contents .finfo-dir{
 	width:150px;
 }
 
-#content .finfo:hover{
+#file-contents .finfo:hover{
 	box-shadow: 0px 0px 10px #369;
 }
-#content .finfo a.title{
+#file-contents .finfo a.title{
 	white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 
 	background: rgb(235,241,246);
@@ -105,46 +105,57 @@ li{padding:0;margin:0;}
 	margin-bottom:5px;
 	font-size:smaller;
 }
-#content .finfo::after{
+#file-contents .finfo::after{
 	
 }
 /* */
 
-#content .finfo .previewbox{
+#file-contents .finfo .previewbox{
 	padding:0px;
-	margin:2px auto;
+	margin:0px auto 2px auto;
 	height:150px;
 	overflow:hidden;
+	position:relative;
 }
-#content .finfo .previewbox a{
+#file-contents .finfo .previewbox a{
 	border-width:0px;
 }
-
+#file-contents .finfo .previewbox .editurl{
+	position:absolute;
+	top:0px;right:2px;
+	height:40px;
+	opacity:0.5;
+}
+#file-contents .finfo:hover .previewbox .editurl{
+opacity:1;
+}
 /* 미리보기 이미지  */
-#content .finfo .previewbox img{
+#file-contents .finfo .previewbox img{
 	max-width:100%;
 	max-height:100%;
 }
 
 /* 속에 속 */
-#content .finfo .finfo{
+#file-contents .finfo .finfo{
 	min-width: initial;
 	width:72px;
 	margin:1px;
 	box-shadow: 1px 0px 2px #ccc;
 }
-#content .finfo .finfo  a.title{
+#file-contents .finfo .finfo  a.title{
 	display:none;
 }
-#content .finfo .finfo::before{
+#file-contents .finfo .finfo::before{
 font-size:smaller;
 }
-#content .finfo  .finfo .previewbox{
+#file-contents .finfo  .finfo .previewbox{
 	max-height: 75px;
 	width:70px;
 	height:70px;
 }
-
+#file-contents .finfo .finfo .previewbox .editurl{
+	display:none;
+}
 /*  */
 #hidden-section{display:none;}
 

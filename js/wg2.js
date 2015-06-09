@@ -21,16 +21,26 @@ var wg2 = (function(){
 			var previewbox = node.getElementsByClassName ('previewbox')[0];
 			var a = node.getElementsByTagName('a')[0];
 			a.dataset["wg2Basename"] = row['basename'];
-			
 			a.id="node-"+row['rel_path'];
 			a.href="#node-"+row['rel_path'];
 			a.title = row['basename'];
+			
+			var editurl = node.getElementsByClassName('editurl')[0];
+			console.log(row['basename'],row['editurl']);
+			if(row['editurl'] == undefined){
+				editurl.parentNode.removeChild(editurl);
+			}else{
+				
+				editurl.href =  row['editurl'];
+				editurl.target="_blank";
+			}
 			
 			//node.title = row['basename'];
 			if(row['is_dir']){
 				a.appendChild(document.createTextNode(row['basename']+" ("+row['in_contents_count']+")"));
 				//node.img = img;
 				img_a.parentNode.removeChild(img_a);
+				
 				//node.img.src = './img/dir.gif';
 				a.href="?dir="+row['rel_path'];
 				if(row['in_contents'] && row['in_contents'].length > 0){

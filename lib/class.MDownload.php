@@ -9,6 +9,7 @@ class MDownload{
 	var $inline = true;
 	var $header = array();
 	var $error = '';
+	var $contentType = '';
 	
 	function MDownload(){
 		return $this->__construct();
@@ -35,7 +36,6 @@ class MDownload{
 		}
 		$this->reset();
 		$this->path = $path;
-		$this->header['Content-Type'] = $this->get_mimetype($path);
 		$this->header['Content-Length'] = sprintf('%u',@filesize($path));
 		if(!isset($name)){
 			$name = basename($this->path);
@@ -88,12 +88,26 @@ class MDownload{
 		foreach($this->header as $k=>$v){
 			header("{$k}: {$v}");
 		}
-		$fp = fopen($this->path,'r+') ;
+		$fp = @fopen($this->path,'r+') ;
+		if(!$fp){
+			$this->error = 'error fopen';
+			return false;
+		}
 		while (!feof($fp)) {
 			set_time_limit(30);	//타임아웃 30씩 :30초가 지났는데도 문제가 있다면 파일읽어오는 데 문제가 있다!
 			echo fgets($fp, 4096);
 		}
 		fclose($fp);
+		return true;
+	}
+	function downloadByString(& $str,$name=''){
+		$this->header['Content-Length'] = sprintf('%u',strlen($str));
+		$this->setName($name);
+		foreach($this->header as $k=>$v){
+			header("{$k}: {$v}");
+		}
+		echo $str;
+		return true;
 	}
 }
 
