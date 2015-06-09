@@ -49,15 +49,15 @@ var wg2 = (function(){
 			}
 			return node;
 		},
-		//-- 노드 그룹을 생성(ul)
+		//-- 노드 그룹을 생성(div)
 		"createNodes":function(rows,dir){
-			var ul = document.createElement('ul');
-			ul.dataset.wg2Dir = dir;
+			var div = document.createElement('div');
+			div.dataset.wg2Dir = dir;
 			for(var i=0,m=rows.length;i<m;i++){
-				ul.appendChild(this.createNode(rows[i]));
+				div.appendChild(this.createNode(rows[i]));
 			}
-			return ul
-			//var ul
+			return div
+			//var div
 		},
 		//-- 하나씩 출력하기
 		"appendNode":function(i){
