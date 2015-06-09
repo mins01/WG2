@@ -40,8 +40,9 @@ var wg2 = (function(){
 				a.appendChild(document.createTextNode(row['basename']));
 				node.img = img;
 				node.img.alt = row['basename'];
+				node.img.src = './img/file.gif';
 				if(row['is_image']){
-					node.img.src = row['previewurl'];
+					//node.img.src = row['previewurl'];
 					node.img.dataset.wg2Previewurl = row['previewurl'];
 					node.img.dataset.wg2Ispreview = "0";
 				}
