@@ -17,6 +17,7 @@ var wg2 = (function(){
 			node.dataset["wg2Type"] = row['type'];
 			node.className = "finfo finfo-"+row["type"];
 			var img = node.getElementsByTagName('img')[0];
+			var img_a = img.parentNode;
 			var previewbox = node.getElementsByClassName ('previewbox')[0];
 			var a = node.getElementsByTagName('a')[0];
 			a.dataset["wg2Basename"] = row['basename'];
@@ -40,12 +41,15 @@ var wg2 = (function(){
 				node.img = img;
 				node.img.alt = row['basename'];
 				if(row['is_image']){
-					//node.img.src = row['preview'];
-					node.img.dataset.wg2Preview = row['preview'];
+					node.img.src = row['previewurl'];
+					node.img.dataset.wg2Previewurl = row['previewurl'];
 					node.img.dataset.wg2Ispreview = "0";
 				}
-				a.href =  row['preview'];
+				a.href =  row['viewurl'];
 				a.target="_blank";
+				img_a.href =  row['previewurl'];
+				img_a.target="_blank";
+				
 			}
 			return node;
 		},
@@ -97,7 +101,7 @@ var wg2 = (function(){
 		},
 		//-- 스크롤이 오면 이미지 보여주기
 		"showPreview":function(){
-			var els = document.querySelectorAll("img[data-wg2-Ispreview='0']");
+			var els = document.querySelectorAll("img[data-wg2-ispreview='0']");
 			//alert(els.length);
 			var postBottom = document.getElementById('postBottom');
 			var pbRet = this.boundInfo(postBottom);
@@ -116,7 +120,7 @@ var wg2 = (function(){
 					|| (scInfo.top <= ret.bottom && ret.bottom<= pbRet.bottom)
 					){
 					//console.log("보임");
-					el.src=el.dataset.wg2Preview;
+					el.src=el.dataset.wg2Previewurl;
 					el.dataset.wg2Ispreview = "1";
 				}else{
 					//console.log("x보임");

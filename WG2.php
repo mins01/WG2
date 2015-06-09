@@ -21,6 +21,7 @@ $mdi->sortR = 1;
 $previewDir = '/web_work/web/WFL/_M.UI.FILELIST.down.php?file=%2F2012%2F01%2Funtitle_20120109233611.png&inline=1';
 
 $mdi->setBaseDir($_WG2_CFG['baseDir']);
+$mdi->setConfigExtension($_WG2_CFG['cfgExt']);
 
 $rows = $mdi->fileListAtBase($dir,2,true);
 if($rows==false){
@@ -35,22 +36,21 @@ $rows = $mdi->filter_extension($rows,$_WG2_CFG['allowExt']);
 //-- 폴더 속 파일 수 제한하기
 foreach($rows as & $v){
 	unset($v['path'],$v['dirname']); //불필요 정보 삭제
-	$v['type'] = $v['is_dir']?'dir':'file';//dir과 file만 
+	//$v['type'] = $v['is_dir']?'dir':'file';//dir과 file만 
 	$path = $dir.'/'.$v['basename'];
-	$v['preview'] = $v['is_dir']?$previewDir:'./down.php?rel_path='.$v['rel_path'];
+	//$v['preview'] = $v['is_dir']?$previewDir:'./down.php?rel_path='.$v['rel_path'];
 	if(isset($v['in_contents'])){
 		$v['in_contents_count'] = count($v['in_contents']);
 		$v['in_contents'] = array_slice($v['in_contents'],0,$_WG2_CFG['dirContentLimit']);
 		foreach($v['in_contents'] as & $v2){
-			$v2['type'] = $v2['is_dir']?'dir':'file';//dir과 file만 
+			//$v2['type'] = $v2['is_dir']?'dir':'file';//dir과 file만 
 			unset($v2['path'],$v2['dirname']); //불필요 정보 삭제
 			$path2 = $path.'/'.$v2['basename'];
-			$v2['preview'] = $v2['is_dir']?$previewDir:'./down.php?rel_path='.$v2['rel_path'];
+			//$v2['preview'] = $v2['is_dir']?$previewDir:'./down.php?rel_path='.$v2['rel_path'];
 		}
 	}
 	
 }
-
 //print_r($rows);
 
 
@@ -118,7 +118,7 @@ if(MHeader::etag($etag)){
 			<div id="defNode" class="finfo finfo-file" data-wg2-type="file" data-wg2-basename="<?=htmlspecialchars($r['basename'])?>">
 				<a class="title" id="" href="#"></a>
 				<div class="previewbox">
-					<img src="http://www.mins01.com/web_work/web/WFL/_M.UI.FILELIST.down.php?file=%2F2012%2F01%2Funtitle_20120109233611.png&amp;inline=1">
+					<a><img src="http://www.mins01.com/web_work/web/WFL/_M.UI.FILELIST.down.php?file=%2F2012%2F01%2Funtitle_20120109233611.png&amp;inline=1"></a>
 				</div>
 			</div>
 			

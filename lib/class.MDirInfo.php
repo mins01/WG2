@@ -8,12 +8,26 @@ class MDirInfo{
 	var $error = '';
 	var $sortF = false; //정렬키
 	var $sortR = false; //역순
+	var $cnfExt = array(
+		'#DEF#'=>array(
+			'previewurl'=>'./down.php?rel_path={{rel_path}}&mode=preview'
+			,'viewurl'=>'./down.php?rel_path={{rel_path}}&mode=view'
+			,'downurl'=>'./down.php?rel_path={{rel_path}}'
+		),
+	);
 	function MDirInfo(){
 		return $this->__construct();
 	}
 	function  __construct(){
 	}
-	
+	function setConfigExtension($cnfExt){
+		return $this->cnfExt = array_merge($this->cnfExt,$cnfExt);
+	}
+	function getConfigExtension($ext){
+		$ext = strtolower($ext);
+		
+		return isset($this->cnfExt[$ext])?$this->cnfExt[$ext]:$this->cnfExt['#DEF#'];
+	}
 	function stat($path){
 		$path = realpath($path);
 		if(!file_exists($path)){
@@ -40,7 +54,23 @@ class MDirInfo{
 		$info['atime'] = $stat['atime'];
 		$info['mtime'] = $stat['mtime'];
 		$info['ctime'] = $stat['ctime'];
+		$info['type'] =  $info['is_file']?'file':($info['is_dir']?'dir':($info['is_link']?'link':'none'));
+		
+		
 		$info['rel_path'] = str_replace('\\','/',str_replace($this->baseDir,'',$info['path']));
+		
+		$shs = array();
+		$rps = array();
+		foreach($info as $k=>$v){
+			$shs[] = '{{'.$k.'}}';
+			$rps[] = urlencode($v);
+		}
+		
+		$cnfExt = $this->getConfigExtension($info['extension']);
+		foreach($cnfExt as $k=>$v){
+			$info[$k] = str_replace($shs,$rps,$v);
+		}
+		
 		//$info['rel_path'] = strpos($info['path'],$this->baseDir).$info['path'].";".$this->baseDir;
 		//	print_r(stat($path));
 		//print_r($info);	
