@@ -29,7 +29,9 @@ var wg2 = (function(){
 			//node.title = row['basename'];
 			if(row['is_dir']){
 				a.appendChild(document.createTextNode(row['basename']+" ("+row['in_contents_count']+")"));
-				img.parentNode.removeChild(img);
+				//node.img = img;
+				img_a.parentNode.removeChild(img_a);
+				//node.img.src = './img/dir.gif';
 				a.href="?dir="+row['rel_path'];
 				if(row['in_contents'] && row['in_contents'].length > 0){
 					previewbox.appendChild(this.createNodes(row['in_contents'],row['basename']));
@@ -48,7 +50,7 @@ var wg2 = (function(){
 				}
 				a.href =  row['viewurl'];
 				a.target="_blank";
-				img_a.href =  row['previewurl'];
+				img_a.href =  row['viewurl'];
 				img_a.target="_blank";
 				
 			}
