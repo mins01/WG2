@@ -139,8 +139,7 @@ if(MHeader::etag($etag)){
 		document.onscroll = function(){
 			wg2.showPreview();
 		}
-		window.onresize = function(){
-			document.title='x';
+		window.onresize = function()
 			wg2.showPreview();
 		}
 		wg2.showPreview();
