@@ -4,7 +4,7 @@
 * 업로드 관련 관련.
 */
 class MUpload{
-	var $max_size = 1048576;
+	var $max_size = 1024;
 	var $allow_extensions = array('*');
 	function MDownload(){
 		return $this->__construct();
