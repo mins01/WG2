@@ -8,9 +8,9 @@ $_WG2_CFG['dirContentLimit'] = 4;
 $_WG2_CFG['allowExt'] = 'png;gif;jpg;jpeg;wcbjson'; //이 확장자만 보인다. *이 있다면 모든 파일이 보인다.
 $_WG2_CFG['cfgExt'] = array();
 $_WG2_CFG['cfgExt']['#DEF#'] = array(
-	'previewurl'=>'./down.php?mode=preview&rel_path={{rel_path}}',
-	'viewurl'=>'./down.php?mode=view&rel_path={{rel_path}}',
-	'downurl'=>'./down.php?mode=down&rel_path={{rel_path}}',
+	'previewurl'=>'./down.php?mode=view&rel_path={{rel_path}}', //미리보기 이미지용
+	'viewurl'=>'./down.php?mode=view&rel_path={{rel_path}}', //이미지 클릭시
+	'downurl'=>'./down.php?mode=down&rel_path={{rel_path}}', //타이틀 클릭시
 );
 $_WG2_CFG['cfgExt']['jpg'] = array(
 	'editurl'=>'/WC2/WC2.html?open='.urlencode($_WG2_CFG['baseDirUrl'].'/down.php?mode=down&rel_path=').'{{rel_path}}',
