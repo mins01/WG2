@@ -144,7 +144,7 @@ if(false && MHeader::etag($etag)){
 			
 			<div id="defNode" class="finfo finfo-file" data-wg2-type="file" data-wg2-basename="<?=htmlspecialchars($r['basename'])?>">
 				<a class="title" id="" href="#"></a>
-				<div class="previewbox">
+				<div class="previewbox" data-wg2-comment="">
 					<a><img src="./img/file.gif"></a>
 					<a class="editurl btn btn-default glyphicon glyphicon-edit" href="#" title="edit" onclick="return confirm('수정하시겠습니까?')"></a>
 				</div>

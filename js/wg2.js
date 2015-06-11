@@ -9,6 +9,19 @@ var wg2 = (function(){
 		"putRows":function(rows){
 			this.rows = this.rows.concat(rows);
 		},
+		"timeToYmdHis":function(time){
+			var date = new Date(time);
+			
+			var yyyy = date.getFullYear().toString();                                    
+			var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based         
+			var dd  = date.getDate().toString();             
+			var hours = date.getHours().toString();
+			var minutes = date.getMinutes().toString();
+			var seconds = date.getSeconds().toString();
+
+			return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0])
+				+" "+ (hours[1]?hours:"0"+hours[0])+":"+ (minutes[1]?minutes:"0"+minutes[0])+":"+ (seconds[1]?seconds:"0"+seconds[0]);
+		},
 		//-- 노드 하나를 생성(li)
 		"createNode":function(row){
 			var node = this.defNode.cloneNode(true);
@@ -22,6 +35,7 @@ var wg2 = (function(){
 			var img = node.getElementsByTagName('img')[0];
 			var img_a = img.parentNode;
 			var previewbox = node.getElementsByClassName ('previewbox')[0];
+			previewbox.dataset.wg2Comment=this.timeToYmdHis(row["mtime"]*1000);
 			var a = node.getElementsByTagName('a')[0];
 			a.dataset["wg2Basename"] = row['basename'];
 			a.id="node-"+row['rel_path'];
@@ -65,6 +79,7 @@ var wg2 = (function(){
 				a.target="_blank";
 				img_a.href =  row['viewurl'];
 				img_a.target="_blank";
+				
 				
 			}
 			return node;

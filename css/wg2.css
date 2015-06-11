@@ -70,7 +70,7 @@ body{padding:0;margin:0;}
 	//float:left;
 	min-width:100px;max-width:300px;
 	//min-height:200px;//max-height:200px;
-	width:150px;
+	width:300px;
 	margin:5px;
 	box-shadow: 1px 1px 5px #999;
 	overflow:hidden;
@@ -78,11 +78,9 @@ body{padding:0;margin:0;}
 }
 #file-contents .finfo-dir{
 	background: linear-gradient(to bottom, rgba(232,219,137,0.1) 0%,rgba(232,219,137,0.2) 63%,rgba(232,219,137,0.5) 100%);
-	width:150px;
 }
 #file-contents .finfo-image{
 	background: linear-gradient(to bottom, rgba(254,255,255,1) 0%,rgba(221,241,249,1) 35%,rgba(160,216,239,1) 100%);
-	width:150px;
 }
 
 
@@ -112,11 +110,9 @@ body{padding:0;margin:0;}
 }
 #file-contents .finfo-dir  a.title{
 	background: linear-gradient(to bottom, rgba(232,219,137,0.1) 0%,rgba(232,219,137,0.2) 63%,rgba(232,219,137,0.5) 100%);
-	width:150px;
 }
 #file-contents .finfo-image a.title{
 	background: linear-gradient(to bottom, rgba(254,255,255,1) 0%,rgba(221,241,249,1) 35%,rgba(160,216,239,1) 100%);
-	width:150px;
 }
 
 #file-contents .finfo::after{
@@ -127,19 +123,29 @@ body{padding:0;margin:0;}
 #file-contents .finfo .previewbox{
 	padding:0px;
 	margin:0px auto 2px auto;
-	height:145px;
+	height:298px;
 	overflow:hidden;
 	position:relative;
+}
+#file-contents .finfo .previewbox::after{
+	position:absolute;
+	content:attr(data-wg2-comment);
+	top: 100%;	left:0;right:0px;
+	margin-top:-22px;
+	height:20px;
+	opacity:0.5;
+	z-index:1;
 }
 #file-contents .finfo .previewbox a{
 	border-width:0px;
 }
 #file-contents .finfo .previewbox .editurl{
 	position:absolute;
-	top:110px;
-	right:2px;
+	top: 100%;	right:2px;
+	margin-top:-42px;
 	height:40px;
 	opacity:0.5;
+	z-index:2;
 }
 #file-contents .finfo:hover .previewbox .editurl{
 opacity:1;
@@ -154,20 +160,21 @@ opacity:1;
 /* 속에 속 */
 #file-contents .finfo .finfo{
 	min-width: initial;
-	width:72px;
+	width:144px;
 	margin:1px;
 	box-shadow: 1px 0px 2px #ccc;
 }
 #file-contents .finfo .finfo  a.title{
 	display:none;
 }
+#file-contents .finfo .finfo .previewbox::after{
+	display:none;
+}
 #file-contents .finfo .finfo::before{
 font-size:smaller;
 }
 #file-contents .finfo  .finfo .previewbox{
-	max-height: 75px;
-	width:70px;
-	height:70px;
+	height:142px;
 }
 #file-contents .finfo .finfo .previewbox .editurl{
 	display:none;
@@ -214,6 +221,21 @@ font-size:smaller;
 		border-top-style: hidden;
 		box-shadow: 1px 1px 5px #999;
 		//margin-bottom:10px;
+	}
+	#file-contents .finfo{
+		width:150px;
+	}
+	#file-contents .finfo .previewbox{
+		height:148px;
+	}
+	#file-contents .finfo .finfo{
+		min-width: initial;
+		width:72px;
+		margin:1px;
+		box-shadow: 1px 0px 2px #ccc;
+	}
+	#file-contents .finfo  .finfo .previewbox{
+		height:70px;
 	}
 }
 @media (max-width: 620px) {
