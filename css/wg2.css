@@ -12,6 +12,7 @@ html{padding:0;margin:0}
 body{padding:0;margin:0;}
 *{box-sizing: border-box;}
 
+img{-ms-interpolation-mode:bicubic;}
 
 #header{
 	background: rgb(235,241,246);
@@ -123,9 +124,13 @@ body{padding:0;margin:0;}
 #file-contents .finfo .previewbox{
 	padding:0px;
 	margin:0px auto 2px auto;
-	height:298px;
+	height:300px;
 	overflow:hidden;
 	position:relative;
+	display:table-cell;
+	text-align: center;
+	width: 300px;
+	vertical-align: middle;
 }
 #file-contents .finfo .previewbox::after{
 	position:absolute;
@@ -201,7 +206,22 @@ font-size:smaller;
 	
 }
 @media (max-width: 992px) {
-
+	#file-contents .finfo{
+		width:200px;
+	}
+	#file-contents .finfo .previewbox{
+		height:200px;
+		width: 200px;
+	}
+	#file-contents .finfo .finfo{
+		min-width: initial;
+		width:98px;
+		margin:1px;
+		box-shadow: 1px 0px 2px #ccc;
+	}
+	#file-contents .finfo  .finfo .previewbox{
+		height:98px;
+	}
 }
 @media (max-width: 768px) {
 	*::-webkit-scrollbar {
@@ -226,7 +246,8 @@ font-size:smaller;
 		width:150px;
 	}
 	#file-contents .finfo .previewbox{
-		height:148px;
+		height:150px;
+		width: 150px;
 	}
 	#file-contents .finfo .finfo{
 		min-width: initial;
@@ -235,7 +256,7 @@ font-size:smaller;
 		box-shadow: 1px 0px 2px #ccc;
 	}
 	#file-contents .finfo  .finfo .previewbox{
-		height:70px;
+		height:72px;
 	}
 }
 @media (max-width: 620px) {
