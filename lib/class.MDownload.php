@@ -10,6 +10,7 @@ class MDownload{
 	var $header = array();
 	var $error = '';
 	var $contentType = '';
+	var $readBuffer = 1048576;
 	
 	function MDownload(){
 		return $this->__construct();
@@ -98,8 +99,8 @@ class MDownload{
 			return false;
 		}
 		while (!feof($fp)) {
-			set_time_limit(30);	//타임아웃 30씩 :30초가 지났는데도 문제가 있다면 파일읽어오는 데 문제가 있다!
-			echo fgets($fp, 4096);
+			set_time_limit(3);	//타임아웃 3초가 지났는데도 문제가 있다면 파일읽어오는 데 문제가 있다!
+			echo fgets($fp, $this->readBuffer);
 		}
 		fclose($fp);
 		return true;

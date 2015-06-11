@@ -16,6 +16,9 @@ var wg2 = (function(){
 			node.dataset["wg2Basename"] = row['basename'];
 			node.dataset["wg2Type"] = row['type'];
 			node.className = "finfo finfo-"+row["type"];
+			if(row['is_image']){
+				node.className+=' finfo-image';
+			}
 			var img = node.getElementsByTagName('img')[0];
 			var img_a = img.parentNode;
 			var previewbox = node.getElementsByClassName ('previewbox')[0];

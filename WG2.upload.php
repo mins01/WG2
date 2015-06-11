@@ -5,7 +5,7 @@ require_once($_WG2_ROOT.'/lib/class.MUpload.php');
 $mup = new MUpload();
 
 $mup->max_size = 1024*1000;
-$mup->setAllow_extensions($_WG2_CFG['allowExt']);
+$mup->setAllow_extensions($_WG2_CFG['allowExt_upload']);
 
 $dir = isset($_REQUEST['dir'])?$_REQUEST['dir']:'/';
 if(strpos($dir,'/')===0){ $dir = substr($dir,1); }

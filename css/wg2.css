@@ -70,15 +70,22 @@ body{padding:0;margin:0;}
 	//float:left;
 	min-width:100px;max-width:300px;
 	//min-height:200px;//max-height:200px;
-	
+	width:150px;
 	margin:5px;
 	box-shadow: 1px 1px 5px #999;
 	overflow:hidden;
 	transition: all 0.5s ease-out;
 }
 #file-contents .finfo-dir{
+	background: linear-gradient(to bottom, rgba(232,219,137,0.1) 0%,rgba(232,219,137,0.2) 63%,rgba(232,219,137,0.5) 100%);
 	width:150px;
 }
+#file-contents .finfo-image{
+	background: linear-gradient(to bottom, rgba(254,255,255,1) 0%,rgba(221,241,249,1) 35%,rgba(160,216,239,1) 100%);
+	width:150px;
+}
+
+
 
 #file-contents .finfo:hover{
 	box-shadow: 0px 0px 10px #369;
@@ -87,7 +94,7 @@ body{padding:0;margin:0;}
 	white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 
 	background: rgb(235,241,246);
-	background: linear-gradient(to bottom, rgba(254,255,255,1) 0%,rgba(221,241,249,1) 35%,rgba(160,216,239,1) 100%);
+	background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 63%,rgba(0,0,0,0.13) 100%);
 	border:3px hidden #abc;
 	border-top-style: hidden;
 	border-top-left-radius:inherit;
@@ -97,12 +104,21 @@ body{padding:0;margin:0;}
 	padding:0 3px 5px 3px ;
 	
 	box-shadow: 0px 1px 2px #999;
-	content:attr(data-wg2-type)":"attr(data-wg2-basename);
+	//content:attr(data-wg2-type)":"attr(data-wg2-basename);
 	display:block;
 	word-break:break-all;
 	margin-bottom:5px;
 	font-size:smaller;
 }
+#file-contents .finfo-dir  a.title{
+	background: linear-gradient(to bottom, rgba(232,219,137,0.1) 0%,rgba(232,219,137,0.2) 63%,rgba(232,219,137,0.5) 100%);
+	width:150px;
+}
+#file-contents .finfo-image a.title{
+	background: linear-gradient(to bottom, rgba(254,255,255,1) 0%,rgba(221,241,249,1) 35%,rgba(160,216,239,1) 100%);
+	width:150px;
+}
+
 #file-contents .finfo::after{
 	
 }
@@ -111,7 +127,7 @@ body{padding:0;margin:0;}
 #file-contents .finfo .previewbox{
 	padding:0px;
 	margin:0px auto 2px auto;
-	height:150px;
+	height:145px;
 	overflow:hidden;
 	position:relative;
 }
@@ -120,7 +136,8 @@ body{padding:0;margin:0;}
 }
 #file-contents .finfo .previewbox .editurl{
 	position:absolute;
-	top:0px;right:2px;
+	top:110px;
+	right:2px;
 	height:40px;
 	opacity:0.5;
 }
@@ -131,6 +148,7 @@ opacity:1;
 #file-contents .finfo .previewbox img{
 	max-width:100%;
 	max-height:100%;
+	background-image:url("../img/bg.gif");
 }
 
 /* 속에 속 */
@@ -181,6 +199,21 @@ font-size:smaller;
 @media (max-width: 768px) {
 	*::-webkit-scrollbar {
 	  width: 0px;
+	}
+	
+	#header{
+		background: rgb(235,241,246);
+		background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 63%,rgba(0,0,0,0.13) 100%);
+
+		text-align:center;
+		font-size:18px;
+		margin:0 auto;
+		padding:0 5px 15px 5px ;
+		//max-width:1000px;
+		border:3px hidden #abc;
+		border-top-style: hidden;
+		box-shadow: 1px 1px 5px #999;
+		//margin-bottom:10px;
 	}
 }
 @media (max-width: 620px) {

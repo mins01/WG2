@@ -55,8 +55,8 @@ foreach($rows as & $v){
 
 
 //-- 웹캐시 설정
-/*
-$sec = 10;
+//*
+$sec = 60;
 //$etag =  floor(time()/$sec).md5( serialize($rows));
 MHeader::expires($sec);
 $msgs = array();
@@ -67,7 +67,7 @@ if(false && MHeader::etag($etag)){
 	//$msgs[] = 'lastModified 동작'; //실제 출력되지 않는다.(304 발생이 되기 때문에)
 	//exit('lastModified 동작');
 }
-*/
+//*/
 //--
 
 
@@ -145,7 +145,7 @@ if(false && MHeader::etag($etag)){
 			<div id="defNode" class="finfo finfo-file" data-wg2-type="file" data-wg2-basename="<?=htmlspecialchars($r['basename'])?>">
 				<a class="title" id="" href="#"></a>
 				<div class="previewbox">
-					<a><img src="http://www.mins01.com/web_work/web/WFL/_M.UI.FILELIST.down.php?file=%2F2012%2F01%2Funtitle_20120109233611.png&amp;inline=1"></a>
+					<a><img src="./img/file.gif"></a>
 					<a class="editurl btn btn-default glyphicon glyphicon-edit" href="#" title="edit" onclick="return confirm('수정하시겠습니까?')"></a>
 				</div>
 			</div>

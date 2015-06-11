@@ -31,10 +31,10 @@ MHeader::expires($sec);
 $msgs = array();
 if(MHeader::etag($etag)){
 	//$msgs[] = 'etag 동작';//실제 출력되지 않는다.(304 발생이 되기 때문에)
-	//exit('etag 동작');
+	exit('etag 동작');
 }else if(MHeader::lastModified($sec)){
 	//$msgs[] = 'lastModified 동작'; //실제 출력되지 않는다.(304 발생이 되기 때문에)
-	//exit('lastModified 동작');
+	exit('lastModified 동작');
 }
 
 $r = $mdown->download($path);
