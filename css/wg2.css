@@ -12,8 +12,6 @@ html{padding:0;margin:0}
 body{padding:0;margin:0;}
 *{box-sizing: border-box;}
 
-ul{padding:0;margin:0; list-style:none;}
-li{padding:0;margin:0;}
 
 #header{
 	background: rgb(235,241,246);
@@ -161,6 +159,18 @@ font-size:smaller;
 
 
 #postBottom{position:fixed;bottom:0; height:0px;width:0px; overflow:hidden; }
+
+
+
+#file-upload{margin:5px 0; padding:5px 10px;box-sizing: border-box;width:100%;}
+
+#file-upload .row{ width: 100%;}
+
+
+#upfile-contents{margin:5px auto;text-align:center;}
+#upfile-contents .result-false{color:red;}
+#upfile-contents .result-true{color:blue;}
+
 
 @media (max-width: 1200px) {
 	

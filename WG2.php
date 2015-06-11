@@ -105,6 +105,32 @@ if(false && MHeader::etag($etag)){
 		<header id="header">
 			<a type="button" class="btn btn-default glyphicon glyphicon-level-up" href="?dir=<?=htmlspecialchars($upDir)?>"></a> /<?=htmlspecialchars($dir)?> (<?=count($rows)?> files)
 		</header>
+		<section id="file-upload">
+			<form action="WG2.upload.php" method="post" enctype="multipart/form-data">
+				<div class="row">
+					<div class="col-lg-5">
+						<span class="input-group  input-group-sm">
+							<span class="input-group-addon" id="sizing-addon3">Upload 1.</span>
+							<input class="form-control" name="upf[]" type="file" placeholder="Select File...">
+						</span>
+					</div>
+					<div class="col-lg-5">
+						<span class="input-group  input-group-sm">
+							<span class="input-group-addon" id="sizing-addon3">Upload 2.</span>
+							<input class="form-control" name="upf[]" type="file" placeholder="Select File...">
+						</span>
+					</div>
+					<div class="col-lg-2" style="text-align:center">
+						<span class="btn-group  btn-group-sm">
+							<button class="btn btn-default ">Upload</button>
+						</span>
+					</div>
+					
+					
+				</div>
+			</form>
+		</section>
+			
 		<section id="file-contents">
 			<div data-wc2-dir="/" id="pNode">
 

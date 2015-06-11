@@ -6,6 +6,10 @@
 class MUpload{
 	var $max_size = 1024;
 	var $allow_extensions = array('*');
+	var $logfile_name = 'MUpload.log';
+	var $use_log = true;
+	var $no_log_error_4 = true; //빈파일 업로드는 로그에 남기지 않는다.
+	
 	function MDownload(){
 		return $this->__construct();
 	}
@@ -15,6 +19,23 @@ class MUpload{
 	function init(){
 		
 	}
+	function _log($dir,$arr){
+		if($this->use_log){
+			if($this->no_log_error_4 && isset($arr['error']) && $arr['error']==4){
+				return false;
+			}
+			if(!is_dir($dir)){
+				return false;
+			}
+			$logFile = $dir.'/'.$this->logfile_name;
+			$t = array();
+			$t[] = date('Y-m-d H:i:s');
+			$t[] = isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:'offline';
+			$t[] = serialize($arr);
+			return error_log(implode(' ',$t)."\n",3,$logFile);
+		}
+	}
+	
 	function setAllow_extensions($allowExt){
 		if(is_array($allowExt)){
 			return $this->allow_extensions = explode(';',$allowExt);
@@ -71,7 +92,7 @@ class MUpload{
 			if($f['size']>$this->max_size){
 				$f['result'] = false;
 				$f['error_msg'] = "max size over : {$f['size']} > {$this->max_size}";
-				continue;
+				$this->_log($dir,$f); continue;
 			}
 			switch($f['error']){
 				case 0:break;
@@ -109,30 +130,31 @@ class MUpload{
 				break;
 			}
 			if($f['error']!=UPLOAD_ERR_OK){
-				continue;
+				$this->_log($dir,$f); continue;
 			}
 			$tmp_path = $f['tmp_name'];
 			$path = $this->_getUniqePath($dir.'/'.$f['name']);
 			if($path===false){
 				$f['result'] = false;
 				$f['error_msg'] = 'error exists filename';
-				continue;
+				$this->_log($dir,$f); continue;
 			}
 			if(!$this->_checkAllotExt($path)){
 				$f['result'] = false;
 				$f['error_msg'] = 'error not allow extension';
-				continue;
+				$this->_log($dir,$f); continue;
 			}
 			
 			if(!move_uploaded_file ( $tmp_path , $path )){
 				$f['result'] = false;
 				$f['error_msg'] = 'error move_uploaded_file()"';
-				continue;
+				$this->_log($dir,$f); continue;
 			}
 			$f['uploaed_path'] = $path;
 			$f['uploaed_name'] = basename($path);
 			$f['result'] = true;
 			$f['error_msg'] = '';
+			$this->_log($dir,$f);
 		}
 		return $fs;
 	}
