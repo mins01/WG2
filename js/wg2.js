@@ -26,17 +26,21 @@ var wg2 = (function(){
 		"createNode":function(row){
 			var node = this.defNode.cloneNode(true);
 			node.info = row;
+			node.id = '';
+			delete node.id;
 			node.dataset["wg2Basename"] = row['basename'];
 			node.dataset["wg2Type"] = row['type'];
 			node.className = "finfo finfo-"+row["type"];
+			node.dataset.wg2Headcomment="["+row['type']+"]";
+			node.dataset.wg2Footcomment='';
 			if(row['is_image']){
 				node.className+=' finfo-image';
 			}
 			var img = node.getElementsByTagName('img')[0];
 			var img_a = img.parentNode;
 			var previewbox = node.getElementsByClassName ('previewbox')[0];
-			previewbox.dataset.wg2Headcomment='';
-			previewbox.dataset.wg2Footcomment='';
+			//previewbox.dataset.wg2Headcomment='';
+			//previewbox.dataset.wg2Footcomment='';
 			var a = node.getElementsByTagName('a')[0];
 			a.dataset["wg2Basename"] = row['basename'];
 			a.id="node-"+row['rel_path'];
@@ -58,7 +62,7 @@ var wg2 = (function(){
 				a.appendChild(document.createTextNode(row['basename']));
 				//node.img = img;
 				img_a.parentNode.removeChild(img_a);
-				
+				img_a.dataset.wg2Footcomment='2';
 				previewbox.appendChild(document.createTextNode(row['error_msg']));
 			}else if(row['type']=='dir'){
 				a.appendChild(document.createTextNode(row['basename']+" ("+row['in_contents_count']+")"));
@@ -72,13 +76,13 @@ var wg2 = (function(){
 				}else{
 					previewbox.appendChild(document.createTextNode("[DIR] "+row['basename']));
 				}
-				previewbox.dataset.wg2Footcomment=this.timeToYmdHis(row["mtime"]*1000);
+				node.dataset.wg2Footcomment=this.timeToYmdHis(row["mtime"]*1000);
 			}else if(row['type']=='file'){
 				a.appendChild(document.createTextNode(row['basename']));
 				node.img = img;
 				node.img.alt = row['basename'];
 				node.img.src = './img/file.gif';
-				img.previewbox = previewbox;//
+				img.commentNode = node;//
 				if(row['is_image']){
 					//node.img.src = row['previewurl'];
 					node.img.dataset.wg2Previewurl = row['previewurl'];
@@ -88,7 +92,7 @@ var wg2 = (function(){
 				a.target="_blank";
 				img_a.href =  row['viewurl'];
 				img_a.target="_blank";
-				previewbox.dataset.wg2Footcomment=this.timeToYmdHis(row["mtime"]*1000);
+				node.dataset.wg2Footcomment=this.timeToYmdHis(row["mtime"]*1000);
 				
 			}
 			return node;
@@ -161,7 +165,9 @@ var wg2 = (function(){
 					){
 					//console.log("보임");
 					el.onload = function(){
-						this.previewbox.dataset.wg2Headcomment=this.naturalWidth+"x"+ this.naturalHeight;
+						this.commentNode.dataset.wg2Headcomment=this.naturalWidth+"x"+ this.naturalHeight;
+						this.commentNode.setAttribute('data-wg2-headcomment',this.commentNode.dataset.wg2Headcomment); //IE에서 CSS의 content가 안바뀌는 버그가 있다.
+						//alert(this.commentNode.dataset.wg2Headcomment);
 						//setTimeout(function(){this.onload=null},0)
 						this.dataset.wg2Ispreview = "2";
 					}

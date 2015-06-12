@@ -76,6 +76,7 @@ img{-ms-interpolation-mode:bicubic;}
 	box-shadow: 1px 1px 5px #999;
 	overflow:hidden;
 	transition: all 0.5s ease-out;
+	position:relative;
 }
 #file-contents .finfo-dir{
 	background: linear-gradient(to bottom, rgba(232,219,137,0.1) 0%,rgba(232,219,137,0.2) 63%,rgba(232,219,137,0.5) 100%);
@@ -108,6 +109,7 @@ img{-ms-interpolation-mode:bicubic;}
 	word-break:break-all;
 	margin-bottom:3px;
 	font-size:smaller;
+
 }
 #file-contents .finfo-dir  a.title{
 	background: linear-gradient(to bottom, rgba(232,219,137,0.1) 0%,rgba(232,219,137,0.2) 63%,rgba(232,219,137,0.5) 100%);
@@ -115,9 +117,22 @@ img{-ms-interpolation-mode:bicubic;}
 #file-contents .finfo-image a.title{
 	background: linear-gradient(to bottom, rgba(254,255,255,1) 0%,rgba(221,241,249,1) 35%,rgba(160,216,239,1) 100%);
 }
-
+#file-contents .finfo::before{
+	position:absolute;
+	content:attr(data-wg2-headcomment);
+	top: 2em;	left:0;right:0px;
+	height:20px;
+	opacity:0.8;
+	z-index:1;
+}
 #file-contents .finfo::after{
-	
+	position:absolute;
+	content:attr(data-wg2-footcomment);
+	top: auto;	left:0;right:0px;
+	bottom:2px;
+	height:20px;
+	opacity:0.8;
+	z-index:1;
 }
 /* */
 
@@ -135,37 +150,20 @@ img{-ms-interpolation-mode:bicubic;}
 	vertical-align: middle;
 	width: 300px;
 }
-	
-#file-contents .finfo .previewbox::after{
-	position:absolute;
-	content:attr(data-wg2-footcomment);
-	top: 100%;	left:0;right:0px;
-	margin-top:-22px;
-	height:20px;
-	opacity:0.5;
-	z-index:1;
-}
-#file-contents .finfo-image .previewbox::before{
-	position:absolute;
-	content:attr(data-wg2-headcomment);
-	top: 0;	left:0;right:0px;
-	margin-top:0px;
-	height:20px;
-	opacity:0.5;
-	z-index:1;
-}
+
 #file-contents .finfo .previewbox a{
 	border-width:0px;
 }
-#file-contents .finfo .previewbox .editurl{
+#file-contents .finfo .editurl{
 	position:absolute;
-	top: 100%;	right:2px;
-	margin-top:-42px;
+	top: auto;bottom:2px;	right:2px;
+	//margin-top:-42px;
 	height:40px;
+	width:40px;
 	opacity:0.5;
 	z-index:2;
 }
-#file-contents .finfo:hover .previewbox .editurl{
+#file-contents .finfo:hover .editurl{
 opacity:1;
 }
 /* 미리보기 이미지  */
@@ -194,7 +192,13 @@ font-size:smaller;
 #file-contents .finfo  .finfo .previewbox{
 	height:142px;
 }
-#file-contents .finfo .finfo .previewbox .editurl{
+#file-contents .finfo .finfo .editurl{
+	display:none;
+}
+#file-contents .finfo .finfo::before{
+	display:none;
+}
+#file-contents .finfo .finfo::after{
 	display:none;
 }
 /*  */

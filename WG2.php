@@ -60,10 +60,13 @@ $sec = 60;
 //$etag =  floor(time()/$sec).md5( serialize($rows));
 MHeader::expires($sec);
 $msgs = array();
+/*
 if(false && MHeader::etag($etag)){
 	//$msgs[] = 'etag 동작';//실제 출력되지 않는다.(304 발생이 되기 때문에)
 	//exit('etag 동작');
-}else if(MHeader::lastModified($sec)){
+}else 
+	*/
+if(MHeader::lastModified($sec)){
 	//$msgs[] = 'lastModified 동작'; //실제 출력되지 않는다.(304 발생이 되기 때문에)
 	//exit('lastModified 동작');
 }
@@ -103,7 +106,7 @@ if(false && MHeader::etag($etag)){
 	</head>
 	<body>
 		<header id="header">
-			<a type="button" class="btn btn-default glyphicon glyphicon-level-up" href="?dir=<?=htmlspecialchars($upDir)?>"></a> <?=htmlspecialchars($dir)?> (<?=count($rows)?> files)
+			<a type="button" class="btn btn-default glyphicon glyphicon-level-up" href="?dir=<?=htmlspecialchars(urlencode($upDir))?>"></a> <?=htmlspecialchars($dir)?> (<?=count($rows)?> files)
 		</header>
 		<? if($_WG2_CFG['use_upload_form']) { ?>
 		<section id="file-upload">
@@ -148,8 +151,9 @@ if(false && MHeader::etag($etag)){
 				<a class="title" id="" href="#"></a>
 				<div class="previewbox" data-wg2-comment="">
 					<a><img src="./img/file.gif"></a>
-					<a class="editurl btn btn-default glyphicon glyphicon-edit" href="#" title="edit" onclick="return confirm('수정하시겠습니까?')"></a>
+					
 				</div>
+				<a class="editurl btn btn-default glyphicon glyphicon-edit" href="#" title="edit" onclick="return confirm('수정하시겠습니까?')"></a>
 			</div>
 			
 		</section>
