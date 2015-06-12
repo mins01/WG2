@@ -33,7 +33,7 @@ class MDownload{
 	}
 	function setPath($path,$name=null){
 		if(!isset($name[0])){
-			$name = basename($this->path);
+			$name = basename($path);
 		}
 		$path = iconv('utf-8',$this->to_charset,$path);
 		if(!is_file($path)){
