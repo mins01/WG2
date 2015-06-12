@@ -14,11 +14,12 @@ if(!isset($rel_path[0])){
 $path = $baseDir.'/'.$rel_path;
 
 $mdown = new MDownload();
-$r = $mdown->setPath($path);
+/*$r = $mdown->setPath($path);
 if($r == false){
 	header("HTTP/1.0 404 Not Found");
 	exit($mdown->error);
 }
+*/
 
 
 
@@ -69,9 +70,11 @@ exit;
 */
 
 $name = basename($path).'.png';
+
 $r = $mdown->downloadByString($cont,$name);
 if($r == false){
 	header("HTTP/1.0 404 Not Found");
 	exit($mdown->error);
 }
+ob_end_flush ();
 exit();

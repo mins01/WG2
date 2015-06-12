@@ -4,14 +4,15 @@
 * 다운로드 관련.
 */
 class MDownload{
-	var $path = '';
-	var $name = '';
-	var $inline = true;
-	var $header = array();
+
 	var $error = '';
 	var $contentType = '';
 	var $readBuffer = 1048576;
-	var $to_charset = 'euc-kr//TRANSLIT';//언어셋 변경
+
+	//== 케릭터셋 관련
+	var $server_charset = 'cp949';//서버쪽 언어셋
+	var $web_charset = 'utf-8';//웹쪽 언어셋
+	var $to_charset_option = '//TRANSLIT';
 	
 	function MDownload(){
 		return $this->__construct();
@@ -19,45 +20,32 @@ class MDownload{
 	function  __construct(){
 		
 	}
+	function iconv($str,$isOut=false){
+		if($this->web_charset == $this->server_charset){return $str;}
+		return !$isOut?iconv($this->web_charset,$this->server_charset.$this->to_charset_option,$str):iconv($this->server_charset,$this->web_charset.$this->to_charset_option,$str);
+	}
+	//--- 기본 함수가 php5 에서 한글이 잘리는 버그가 있어서 preg_match로 따로 메소드 사용.
+	function pathinfo($path) {
+		preg_match('%^(.*?)[\\\\/]*(([^/\\\\]*?)(\.([^\.\\\\/]+?)|))[\\\\/\.]*$%im',$path,$m);
+		if($m[1]) $ret['dirname']=$m[1];
+		if($m[2]) $ret['basename']=$m[2];
+		if($m[5]) $ret['extension']=$m[5];
+		if($m[3]) $ret['filename']=$m[3];
+		return $ret;
+	}
+	//--- 기본 함수가  php5 에서 한글이 잘리는 버그가 있어서 preg_match로 따로 메소드 사용
+	function basename($path){
+		return preg_replace( '/^.+[\\\\\\/]/', '', $path );
+	}
+	
 	function init(){
-		$this->reset();
-	}
-	function reset(){
-		$this->inline = true;
-		$this->header = array(
-			'Content-Type'=>'application/octet-stream',
-			'Content-Disposition'=>'inline',
-			'Content-Transfer-Encoding'=>'binary',
-			'Content-Length'=>-1,
-		);
-	}
-	function setPath($path,$name=null){
-		if(!isset($name[0])){
-			$name = basename($path);
-		}
-		$path = iconv('utf-8',$this->to_charset,$path);
-		if(!is_file($path)){
-			$this->error = "not exists file. ({$path})";
-			return false;
-		}
-		$this->reset();
-		$this->path = $path;
-		$this->header['Content-Length'] = sprintf('%u',@filesize($path));
 		
-		$this->setName($name);
-		return true;
 	}
-	function setName($name){
-		$this->name = $name;
-		$this->header['Content-Disposition']=$this->strContentDisposition($this->inline,$this->name);
-		$this->header['Content-Type'] = $this->get_mimetype($this->name);
-	}
-	function strContentDisposition($inline,$name=null){
+
+
+	function strContentDisposition($attachment,$name=null){
 		$t = array();
-		$t[] = ($this->inline?'inline':'attachment');
-		if(!isset($name[0])){
-			$name = $this->name;
-		}
+		$t[] = ($attachment?'attachment':'inline');
 		if(isset($name[0])){
 			$t[] = '; ';
 			$t[] = 'filename="'.$name.'"';
@@ -84,35 +72,56 @@ class MDownload{
 			break;
 		}
 	}
-	function download($path=null,$name='',$inline='inline'){
-		if(isset($path[0])){
-			$this->setPath($path,$name);
-			$this->strContentDisposition($inline,$name);
+	//=== 다운로드 : 모든 입력은 utf-8기준
+	function download($path,$name='',$attachment=false){
+		
+		$header = array(
+			'Content-Type'=>'application/octet-stream',
+			'Content-Disposition'=>$attachment?'attachment':'inline',
+			'Content-Transfer-Encoding'=>'binary',
+			'Content-Length'=>-1,
+		);
+		if(!isset($name[0])){
+			$name = basename($path);
 		}
-		if(!is_file($this->path)){
-			$this->error = "not exists file. ({$path})";
+		$path = $this->iconv($path,0);
+		if(!is_file($path)){
+			$this->error = __METHOD__."::not exists file. ({$path})";
 			return false;
 		}
-		foreach($this->header as $k=>$v){
+		
+		$header['Content-Disposition']=$this->strContentDisposition($attachment,$name);
+		$header['Content-Type'] = $this->get_mimetype($name);		
+		$header['Content-Length'] = sprintf('%u',filesize($path));
+		foreach($header as $k=>$v){
 			header("{$k}: {$v}");
 		}
-		$fp = @fopen($this->path,'r+') ;
+		$fp = @fopen($path,'r+') ;
 		if(!$fp){
 			$this->error = 'error fopen';
 			return false;
 		}
 		while (!feof($fp)) {
-			set_time_limit(3);	//타임아웃 3초가 지났는데도 문제가 있다면 파일읽어오는 데 문제가 있다!
+			set_time_limit(1);	//타임아웃 3초가 지났는데도 문제가 있다면 파일읽어오는 데 문제가 있다!
 			echo fgets($fp, $this->readBuffer);
 		}
 		fclose($fp);
 		return true;
 	}
-	function downloadByString(& $str,$name=''){
-		$this->header['Content-Length'] = sprintf('%u',strlen($str));
-		$this->setName($name);
-		foreach($this->header as $k=>$v){
+	function downloadByString(& $str,$name,$attachment=false){
+		$header = array(
+			'Content-Type'=>'application/octet-stream',
+			'Content-Disposition'=>$attachment?'attachment':'inline',
+			'Content-Transfer-Encoding'=>'binary',
+			'Content-Length'=>-1,
+		);
+
+		$header['Content-Disposition']=$this->strContentDisposition($attachment,$name);
+		$header['Content-Type'] = $this->get_mimetype($name);
+		$header['Content-Length'] = sprintf('%u',strlen($str));
+		foreach($header as $k=>$v){
 			header("{$k}: {$v}");
+			//echo "{$k}: {$v}\n";
 		}
 		echo $str;
 		return true;

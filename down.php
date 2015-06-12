@@ -42,4 +42,5 @@ if($r == false){
 	header("HTTP/1.0 404 Not Found");
 	exit($mdown->error);
 }
+ob_end_flush ();
 exit();

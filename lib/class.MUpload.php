@@ -9,7 +9,11 @@ class MUpload{
 	var $logfile_name = 'MUpload.log';
 	var $use_log = true;
 	var $no_log_error_4 = true; //빈파일 업로드는 로그에 남기지 않는다.
-	var $to_charset = 'euc-kr//TRANSLIT';//언어셋 변경
+	
+	//== 케릭터셋 관련
+	var $server_charset = 'cp949';//서버쪽 언어셋
+	var $web_charset = 'utf-8';//웹쪽 언어셋
+	var $to_charset_option = '//TRANSLIT';
 	
 	function MDownload(){
 		return $this->__construct();
@@ -20,6 +24,11 @@ class MUpload{
 	function init(){
 		
 	}
+	function iconv($str,$isOut=false){
+		if($this->web_charset == $this->server_charset){return $str;}
+		return !$isOut?iconv($this->web_charset,$this->server_charset.$this->to_charset_option,$str):iconv($this->server_charset,$this->web_charset.$this->to_charset_option,$str);
+	}
+	
 	function _log($dir,$arr){
 		if($this->use_log){
 			if($this->no_log_error_4 && isset($arr['error']) && $arr['error']==4){
@@ -75,7 +84,7 @@ class MUpload{
 		return in_array($t,$this->allow_extensions);
 	}
 	function _getUniqePath($path){
-		$path = iconv('utf-8',$this->to_charset,$path);
+		//$path = iconv('utf-8',$this->to_charset,$path);
 		$pt = pathinfo($path);
 		$icnt = 0;
 		while(file_exists($path) && ++$icnt < 1000){
@@ -87,8 +96,10 @@ class MUpload{
 		}
 		return file_exists($path)?false:$path;
 	}
+	//== 모든 입력은 utf-8기준
 	function upload($dir,$FILES){
 		$fs = $this->reArrayFILES($FILES);
+		$dir = $this->iconv($dir,0);
 		$this->_mkdir($dir);
 		foreach($fs as & $f){
 			if($f['size']>$this->max_size){
@@ -135,7 +146,7 @@ class MUpload{
 				$this->_log($dir,$f); continue;
 			}
 			$tmp_path = $f['tmp_name'];
-			$path = $this->_getUniqePath($dir.'/'.$f['name']);
+			$path = $this->_getUniqePath($dir.'/'. $this->iconv($f['name'],0)); //내부 케릭터 셋 
 			if($path===false){
 				$f['result'] = false;
 				$f['error_msg'] = 'error exists filename';

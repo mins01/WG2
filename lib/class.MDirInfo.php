@@ -15,7 +15,10 @@ class MDirInfo{
 			,'downurl'=>'./down.php?rel_path={{rel_path}}'
 		),
 	);
-	var $from_charset = 'euc-kr';//언어셋 변경
+	//== 케릭터셋 관련
+	var $server_charset = 'cp949';//서버쪽 언어셋
+	var $web_charset = 'utf-8';//웹쪽 언어셋
+	var $to_charset_option = '//TRANSLIT';
 	
 	function MDirInfo(){
 		return $this->__construct();
@@ -32,28 +35,42 @@ class MDirInfo{
 		
 		return isset($this->cnfExt[$ext])?$this->cnfExt[$ext]:$this->cnfExt['#DEF#'];
 	}
+	function iconv($str,$isOut=false){
+		if($this->web_charset == $this->server_charset){return $str;}
+		return !$isOut?iconv($this->web_charset,$this->server_charset.$this->to_charset_option,$str):iconv($this->server_charset,$this->web_charset.$this->to_charset_option,$str);
+	}
+	//--- 기본 함수가 php5 에서 한글이 잘리는 버그가 있어서 preg_match로 따로 메소드 사용.
+	function pathinfo($path) {
+		preg_match('%^(.*?)[\\\\/]*(([^/\\\\]*?)(\.([^\.\\\\/]+?)|))[\\\\/\.]*$%im',$path,$m);
+		if($m[1]) $ret['dirname']=$m[1];
+		if($m[2]) $ret['basename']=$m[2];
+		if($m[5]) $ret['extension']=$m[5];
+		if($m[3]) $ret['filename']=$m[3];
+		return $ret;
+	}
+	//--- 기본 함수가  php5 에서 한글이 잘리는 버그가 있어서 preg_match로 따로 메소드 사용
+	function basename($path){
+		return preg_replace( '/^.+[\\\\\\/]/', '', $path );
+	}
+	/**
+	* $path : filepath (encoding : $server_charset)
+	*/
 	function stat($path){
 		$path = realpath($path);
 		if(!file_exists($path)){
 			$this->error = 'not exists file.';
 			return false;
 		}
-		//$utf8_path = iconv($this->from_charset,'utf-8',$path);
-		$stat = stat($path);	
+		$stat = stat($path);
 		$info = array();
 		$info['path'] = $path;
-		//$info = array_merge($info,pathinfo($utf8_path));
-		$info = array_merge($info,pathinfo($path));
+		$info = array_merge($info,$this->pathinfo($this->iconv($path,1)));
 		/*
 		$info['dirname'], "\n";
 		$info['basename'], "\n";
 		$info['extension'], "\n";
 		$info['filename'], "\n"; // since PHP 5.2.0
 		*/
-		$info['dirname'] = iconv($this->from_charset,'utf-8',$info['dirname']);
-		$info['basename'] = iconv($this->from_charset,'utf-8',$info['basename']);
-		$info['filename'] = iconv($this->from_charset,'utf-8',$info['filename']);
-		
 		$info['is_file'] = is_file($path);
 		$info['is_dir'] = is_dir($path);
 		$info['is_link'] = is_link($path);
@@ -68,7 +85,7 @@ class MDirInfo{
 		
 		$utf8_path = $info['dirname'].'/'.$info['basename'];
 		
-		$info['rel_path'] = str_replace('\\','/',str_replace($this->baseDir,'',$info['path']));
+		$info['server_rel_path'] = str_replace('\\','/',str_replace($this->baseDir,'',$info['path']));
 		$info['rel_path'] = str_replace('\\','/',str_replace($this->baseDir,'',$utf8_path));
 		
 		$shs = array();
@@ -93,19 +110,26 @@ class MDirInfo{
 		$img_patten = '/^(png|jpg|jpeg|gif)$/i';
 		return preg_match($img_patten,$extension);
 	}
+	//server_charset 기준
 	function setBaseDir($baseDir){
 		$this->baseDir = realpath($baseDir);
 	}
-	function fileListAtBase($iDir,$depth=1,$sort=false){
+	//web_charset 기준
+	function fileListInBaseAtWeb($iDir,$depth=1,$sort=false){
+		$iDir = $this->iconv($iDir);
+		return $this->fileListInBase($iDir,$depth,$sort);
+	}
+	//server_charset 기준
+	function fileListInBase($iDir,$depth=1,$sort=false){
 		$dir = realpath($this->baseDir.'/'.$iDir);
 		if(!is_dir($dir)){
-			$this->error = 'not exists dir : '.$iDir;
+			$this->error = 'not exists dir : '.$dir;
 			return false;
 		}
 		return $this->fileList($dir,$depth,$sort);
 	}
+	//server_charset 기준
 	function fileList($dir,$depth=1,$sort=false){
-
 		if(!is_dir($dir)){
 			$this->error = 'not exists dir : '.$dir;
 			return false;
@@ -205,6 +229,7 @@ class MDirInfo{
 		}
 		return $rows;
 	}
+
 }
 
 

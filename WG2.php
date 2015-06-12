@@ -6,9 +6,9 @@ require_once($_WG2_ROOT.'/lib/class.MHeader.php');
 
 $var = isset($_REQUEST['var'])?$_REQUEST['var']:'finfo';
 $dir = isset($_REQUEST['dir'])?$_REQUEST['dir']:'/';
-if(strpos($dir,'/')===0){ $dir = substr($dir,1); }
+//if(strpos($dir,'/')===0){ $dir = substr($dir,1); }
 $dir = str_replace('..','.',$dir);
-$upDir = dirname($dir);
+$upDir = str_replace('\\','/', dirname($dir));
 if($upDir=='.'){$upDir='/';}
 
 
@@ -17,21 +17,21 @@ $mdi = new MDirInfo();
 $mdi->sortF = 'mtime';
 $mdi->sortR = 1;
 //$mdi->allowExt = allowExt
-$mdi->setBaseDir($_WG2_CFG['baseDir']);
+$mdi->setBaseDir($mdi->iconv($_WG2_CFG['baseDir']));
 $mdi->setConfigExtension($_WG2_CFG['cfgExt']);
 
 //-- 파일,폴더 목록 뽑기
-$rows = $mdi->fileListAtBase($dir,2,true);
+$rows = $mdi->fileListInBaseAtWeb($dir,2,true);
 //print_r($rows);
 //exit;
-if($rows==false){
+if($rows===false){
 	echo $mdi->error;
 	exit();
 }
 
 //-- 확장자 제한하기
 $rows = $mdi->filter_extension($rows,$_WG2_CFG['allowExt']);
-
+//print_r($rows);exit();
 
 //-- 폴더 속 파일 수 제한하기
 foreach($rows as & $v){
@@ -51,7 +51,7 @@ foreach($rows as & $v){
 	}
 	
 }
-//print_r($rows);
+
 
 
 //-- 웹캐시 설정
@@ -103,7 +103,7 @@ if(false && MHeader::etag($etag)){
 	</head>
 	<body>
 		<header id="header">
-			<a type="button" class="btn btn-default glyphicon glyphicon-level-up" href="?dir=<?=htmlspecialchars($upDir)?>"></a> /<?=htmlspecialchars($dir)?> (<?=count($rows)?> files)
+			<a type="button" class="btn btn-default glyphicon glyphicon-level-up" href="?dir=<?=htmlspecialchars($upDir)?>"></a> <?=htmlspecialchars($dir)?> (<?=count($rows)?> files)
 		</header>
 		<section id="file-upload">
 			<form action="up.php" method="post" enctype="multipart/form-data">

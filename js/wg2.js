@@ -36,7 +36,7 @@ var wg2 = (function(){
 			var img_a = img.parentNode;
 			var previewbox = node.getElementsByClassName ('previewbox')[0];
 			previewbox.dataset.wg2Headcomment='';
-			previewbox.dataset.wg2Footcomment=this.timeToYmdHis(row["mtime"]*1000);
+			previewbox.dataset.wg2Footcomment='';
 			var a = node.getElementsByTagName('a')[0];
 			a.dataset["wg2Basename"] = row['basename'];
 			a.id="node-"+row['rel_path'];
@@ -54,19 +54,26 @@ var wg2 = (function(){
 			}
 			
 			//node.title = row['basename'];
-			if(row['is_dir']){
+			if(row['type']=='error'){
+				a.appendChild(document.createTextNode(row['basename']));
+				//node.img = img;
+				img_a.parentNode.removeChild(img_a);
+				
+				previewbox.appendChild(document.createTextNode(row['error_msg']));
+			}else if(row['type']=='dir'){
 				a.appendChild(document.createTextNode(row['basename']+" ("+row['in_contents_count']+")"));
 				//node.img = img;
 				img_a.parentNode.removeChild(img_a);
 				
 				//node.img.src = './img/dir.gif';
-				a.href="?dir="+row['rel_path'];
+				a.href="?dir="+encodeURIComponent(row['rel_path']);
 				if(row['in_contents'] && row['in_contents'].length > 0){
 					previewbox.appendChild(this.createNodes(row['in_contents'],row['basename']));
 				}else{
 					previewbox.appendChild(document.createTextNode("[DIR] "+row['basename']));
 				}
-			}else{
+				previewbox.dataset.wg2Footcomment=this.timeToYmdHis(row["mtime"]*1000);
+			}else if(row['type']=='file'){
 				a.appendChild(document.createTextNode(row['basename']));
 				node.img = img;
 				node.img.alt = row['basename'];
@@ -81,7 +88,7 @@ var wg2 = (function(){
 				a.target="_blank";
 				img_a.href =  row['viewurl'];
 				img_a.target="_blank";
-				
+				previewbox.dataset.wg2Footcomment=this.timeToYmdHis(row["mtime"]*1000);
 				
 			}
 			return node;
