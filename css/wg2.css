@@ -127,11 +127,15 @@ img{-ms-interpolation-mode:bicubic;}
 	height:300px;
 	overflow:hidden;
 	position:relative;
-	display:table-cell;
 	text-align: center;
-	width: 300px;
-	vertical-align: middle;
+	
 }
+#file-contents .finfo-image .previewbox{
+	display:table-cell;
+	vertical-align: middle;
+	width: 300px;
+}
+	
 #file-contents .finfo .previewbox::after{
 	position:absolute;
 	content:attr(data-wg2-comment);
@@ -211,7 +215,6 @@ font-size:smaller;
 	}
 	#file-contents .finfo .previewbox{
 		height:200px;
-		width: 200px;
 	}
 	#file-contents .finfo .finfo{
 		min-width: initial;
@@ -247,7 +250,6 @@ font-size:smaller;
 	}
 	#file-contents .finfo .previewbox{
 		height:150px;
-		width: 150px;
 	}
 	#file-contents .finfo .finfo{
 		min-width: initial;
