@@ -11,6 +11,7 @@ class MDownload{
 	var $error = '';
 	var $contentType = '';
 	var $readBuffer = 1048576;
+	var $to_charset = 'euc-kr//TRANSLIT';//언어셋 변경
 	
 	function MDownload(){
 		return $this->__construct();
@@ -31,6 +32,10 @@ class MDownload{
 		);
 	}
 	function setPath($path,$name=null){
+		if(!isset($name[0])){
+			$name = basename($this->path);
+		}
+		$path = iconv('utf-8',$this->to_charset,$path);
 		if(!is_file($path)){
 			$this->error = "not exists file. ({$path})";
 			return false;
@@ -38,9 +43,7 @@ class MDownload{
 		$this->reset();
 		$this->path = $path;
 		$this->header['Content-Length'] = sprintf('%u',@filesize($path));
-		if(!isset($name[0])){
-			$name = basename($this->path);
-		}
+		
 		$this->setName($name);
 		return true;
 	}
