@@ -17,13 +17,13 @@ $mdi = new MDirInfo();
 $mdi->sortF = 'mtime';
 $mdi->sortR = 1;
 //$mdi->allowExt = allowExt
-
-$previewDir = '/web_work/web/WFL/_M.UI.FILELIST.down.php?file=%2F2012%2F01%2Funtitle_20120109233611.png&inline=1';
-
 $mdi->setBaseDir($_WG2_CFG['baseDir']);
 $mdi->setConfigExtension($_WG2_CFG['cfgExt']);
 
+//-- 파일,폴더 목록 뽑기
 $rows = $mdi->fileListAtBase($dir,2,true);
+//print_r($rows);
+//exit;
 if($rows==false){
 	echo $mdi->error;
 	exit();
@@ -106,18 +106,19 @@ if(false && MHeader::etag($etag)){
 			<a type="button" class="btn btn-default glyphicon glyphicon-level-up" href="?dir=<?=htmlspecialchars($upDir)?>"></a> /<?=htmlspecialchars($dir)?> (<?=count($rows)?> files)
 		</header>
 		<section id="file-upload">
-			<form action="WG2.upload.php" method="post" enctype="multipart/form-data">
+			<form action="up.php" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="dir" value="<?=htmlspecialchars($dir)?>">
 				<div class="row">
 					<div class="col-lg-5">
 						<span class="input-group  input-group-sm">
 							<span class="input-group-addon" id="sizing-addon3">Upload 1.</span>
-							<input class="form-control" name="upf[]" type="file" placeholder="Select File...">
+							<input class="form-control" name="upf[]" type="file" placeholder="Select File..." accept="<?=htmlspecialchars($_WG2_CFG['upload_file_accept'])?>">
 						</span>
 					</div>
 					<div class="col-lg-5">
 						<span class="input-group  input-group-sm">
 							<span class="input-group-addon" id="sizing-addon3">Upload 2.</span>
-							<input class="form-control" name="upf[]" type="file" placeholder="Select File...">
+							<input class="form-control" name="upf[]" type="file" placeholder="Select File..." accept="<?=htmlspecialchars($_WG2_CFG['upload_file_accept'])?>">
 						</span>
 					</div>
 					<div class="col-lg-2" style="text-align:center">

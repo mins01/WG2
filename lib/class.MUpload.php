@@ -9,6 +9,7 @@ class MUpload{
 	var $logfile_name = 'MUpload.log';
 	var $use_log = true;
 	var $no_log_error_4 = true; //빈파일 업로드는 로그에 남기지 않는다.
+	var $to_charset = 'euc-kr//TRANSLIT';//언어셋 변경
 	
 	function MDownload(){
 		return $this->__construct();
@@ -38,9 +39,9 @@ class MUpload{
 	
 	function setAllow_extensions($allowExt){
 		if(is_array($allowExt)){
-			return $this->allow_extensions = explode(';',$allowExt);
+			return $this->allow_extensions = $allowExt;
 		}else if(is_string($allowExt)){
-			return $this->allow_extensions = explode(';',$allowExt);
+			return $this->allow_extensions = explode(',',$allowExt);
 		}
 		return false;
 	}
@@ -74,6 +75,7 @@ class MUpload{
 		return in_array($t,$this->allow_extensions);
 	}
 	function _getUniqePath($path){
+		$path = iconv('utf-8',$this->to_charset,$path);
 		$pt = pathinfo($path);
 		$icnt = 0;
 		while(file_exists($path) && ++$icnt < 1000){
@@ -144,7 +146,7 @@ class MUpload{
 				$f['error_msg'] = 'error not allow extension';
 				$this->_log($dir,$f); continue;
 			}
-			
+			//echo $path ;			exit();
 			if(!move_uploaded_file ( $tmp_path , $path )){
 				$f['result'] = false;
 				$f['error_msg'] = 'error move_uploaded_file()"';

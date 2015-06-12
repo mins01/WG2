@@ -15,6 +15,8 @@ class MDirInfo{
 			,'downurl'=>'./down.php?rel_path={{rel_path}}'
 		),
 	);
+	var $from_charset = 'euc-kr';//언어셋 변경
+	
 	function MDirInfo(){
 		return $this->__construct();
 	}
@@ -36,9 +38,11 @@ class MDirInfo{
 			$this->error = 'not exists file.';
 			return false;
 		}
-		$stat = stat($path);
+		//$utf8_path = iconv($this->from_charset,'utf-8',$path);
+		$stat = stat($path);	
 		$info = array();
 		$info['path'] = $path;
+		//$info = array_merge($info,pathinfo($utf8_path));
 		$info = array_merge($info,pathinfo($path));
 		/*
 		$info['dirname'], "\n";
@@ -46,6 +50,10 @@ class MDirInfo{
 		$info['extension'], "\n";
 		$info['filename'], "\n"; // since PHP 5.2.0
 		*/
+		$info['dirname'] = iconv($this->from_charset,'utf-8',$info['dirname']);
+		$info['basename'] = iconv($this->from_charset,'utf-8',$info['basename']);
+		$info['filename'] = iconv($this->from_charset,'utf-8',$info['filename']);
+		
 		$info['is_file'] = is_file($path);
 		$info['is_dir'] = is_dir($path);
 		$info['is_link'] = is_link($path);
@@ -58,8 +66,10 @@ class MDirInfo{
 		$info['ctime'] = $stat['ctime'];
 		$info['type'] =  $info['is_file']?'file':($info['is_dir']?'dir':($info['is_link']?'link':'none'));
 		
+		$utf8_path = $info['dirname'].'/'.$info['basename'];
 		
 		$info['rel_path'] = str_replace('\\','/',str_replace($this->baseDir,'',$info['path']));
+		$info['rel_path'] = str_replace('\\','/',str_replace($this->baseDir,'',$utf8_path));
 		
 		$shs = array();
 		$rps = array();
@@ -179,7 +189,7 @@ class MDirInfo{
 	}
 	//=== 필터
 	function filter_extension($iRows,$allowExt='*'){
-		$exts = explode(';',strtolower($allowExt));
+		$exts = explode(',',strtolower($allowExt));
 		$rows = array();
 		foreach($iRows as $v){
 			if($v['is_dir']){

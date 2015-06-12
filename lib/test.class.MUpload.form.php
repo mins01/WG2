@@ -17,6 +17,13 @@
 <input type="file" name="upf[]">
 <input type="submit">
 </form>
+<hr>
+<form method="post" enctype="multipart/form-data" action="test.jsonp.class.Mupload.php">
+<input type="callback" name="callback" value="callback">
+<input type="file" name="upf[]">
+<input type="file" name="upf[]">
+<input type="submit">
+</form>
 
 
 
