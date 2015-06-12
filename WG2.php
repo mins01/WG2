@@ -105,6 +105,7 @@ if(false && MHeader::etag($etag)){
 		<header id="header">
 			<a type="button" class="btn btn-default glyphicon glyphicon-level-up" href="?dir=<?=htmlspecialchars($upDir)?>"></a> <?=htmlspecialchars($dir)?> (<?=count($rows)?> files)
 		</header>
+		<? if($_WG2_CFG['use_upload_form']) { ?>
 		<section id="file-upload">
 			<form action="up.php" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="dir" value="<?=htmlspecialchars($dir)?>">
@@ -131,7 +132,7 @@ if(false && MHeader::etag($etag)){
 				</div>
 			</form>
 		</section>
-			
+		<? } ?>
 		<section id="file-contents">
 			<div data-wc2-dir="/" id="pNode">
 
