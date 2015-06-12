@@ -106,7 +106,7 @@ img{-ms-interpolation-mode:bicubic;}
 	//content:attr(data-wg2-type)":"attr(data-wg2-basename);
 	display:block;
 	word-break:break-all;
-	margin-bottom:5px;
+	margin-bottom:3px;
 	font-size:smaller;
 }
 #file-contents .finfo-dir  a.title{
@@ -138,9 +138,18 @@ img{-ms-interpolation-mode:bicubic;}
 	
 #file-contents .finfo .previewbox::after{
 	position:absolute;
-	content:attr(data-wg2-comment);
+	content:attr(data-wg2-footcomment);
 	top: 100%;	left:0;right:0px;
 	margin-top:-22px;
+	height:20px;
+	opacity:0.5;
+	z-index:1;
+}
+#file-contents .finfo-image .previewbox::before{
+	position:absolute;
+	content:attr(data-wg2-headcomment);
+	top: 0;	left:0;right:0px;
+	margin-top:0px;
 	height:20px;
 	opacity:0.5;
 	z-index:1;

@@ -35,7 +35,8 @@ var wg2 = (function(){
 			var img = node.getElementsByTagName('img')[0];
 			var img_a = img.parentNode;
 			var previewbox = node.getElementsByClassName ('previewbox')[0];
-			previewbox.dataset.wg2Comment=this.timeToYmdHis(row["mtime"]*1000);
+			previewbox.dataset.wg2Headcomment='';
+			previewbox.dataset.wg2Footcomment=this.timeToYmdHis(row["mtime"]*1000);
 			var a = node.getElementsByTagName('a')[0];
 			a.dataset["wg2Basename"] = row['basename'];
 			a.id="node-"+row['rel_path'];
@@ -70,6 +71,7 @@ var wg2 = (function(){
 				node.img = img;
 				node.img.alt = row['basename'];
 				node.img.src = './img/file.gif';
+				img.previewbox = previewbox;//
 				if(row['is_image']){
 					//node.img.src = row['previewurl'];
 					node.img.dataset.wg2Previewurl = row['previewurl'];
@@ -151,8 +153,14 @@ var wg2 = (function(){
 					|| (scInfo.top <= ret.bottom && ret.bottom<= pbRet.bottom)
 					){
 					//console.log("보임");
+					el.onload = function(){
+						this.previewbox.dataset.wg2Headcomment=this.naturalWidth+"x"+ this.naturalHeight;
+						//setTimeout(function(){this.onload=null},0)
+						this.dataset.wg2Ispreview = "2";
+					}
 					el.src=el.dataset.wg2Previewurl;
 					el.dataset.wg2Ispreview = "1";
+					
 				}else{
 					//console.log("x보임");
 				}
