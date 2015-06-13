@@ -15,7 +15,7 @@ $_WG2_CFG['upload_file_accept'] = '.png,.gif,.jpg,.jpeg,.wcbjson'; //업로드�
 $_WG2_CFG['use_upload_form'] = false; //업로드 폼 사용여부
 $_WG2_CFG['cfgExt'] = array();
 $_WG2_CFG['cfgExt']['#DEF#'] = array(
-	'previewurl'=>'./down.php?mode=view&rel_path={{rel_path}}', //미리보기 이미지용
+	'previewurl'=>'./down.php?mode=preview&rel_path={{rel_path}}', //미리보기 이미지용
 	'viewurl'=>'./down.php?mode=view&rel_path={{rel_path}}', //이미지 클릭시
 	'downurl'=>'./down.php?mode=down&rel_path={{rel_path}}', //타이틀 클릭시
 );
@@ -34,7 +34,6 @@ $_WG2_CFG['cfgExt']['png'] = array(
 	'editurl'=>$t,
 );
 $_WG2_CFG['cfgExt']['wcbjson'] = array(
-	'previewurl'=>'./down.wcbjson.php?mode=preview&rel_path={{rel_path}}',
 	'viewurl'=>$t,
 	'editurl'=>$t,
 	'is_image'=>true
