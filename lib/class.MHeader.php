@@ -43,7 +43,7 @@ class MHeader{
 	*/
 	function lastModified($sec,$iHTTP_IF_MODIFIED_SINCE=NULL){
 		$HTTP_IF_MODIFIED_SINCE = isset($iHTTP_IF_MODIFIED_SINCE)?$iHTTP_IF_MODIFIED_SINCE:(isset($_SERVER['HTTP_IF_MODIFIED_SINCE'][0])?$_SERVER['HTTP_IF_MODIFIED_SINCE']:NULL);
-		if(isset($HTTP_IF_MODIFIED_SINCE[0]) &&  strtotime($HTTP_IF_MODIFIED_SINCE) < time()){
+		if(isset($HTTP_IF_MODIFIED_SINCE[0]) &&  strtotime($HTTP_IF_MODIFIED_SINCE) > time()){
 			header("HTTP/1.1 304 Not Modified",true,304); 
 			return true;
 			//exit();
