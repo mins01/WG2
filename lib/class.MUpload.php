@@ -163,6 +163,7 @@ class MUpload{
 				$f['error_msg'] = 'error move_uploaded_file()"';
 				$this->_log($dir,$f); continue;
 			}
+			chmod( $path ,0777);
 			$f['uploaed_path'] = $path;
 			$f['uploaed_name'] = basename($path);
 			$f['result'] = true;
