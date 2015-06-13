@@ -26,6 +26,7 @@ $rows = array();
 foreach($rs as &$r){
 	if($r['result']){
 		$r = array_merge($r,$mdi->stat($r['uploaed_path']));
+		$r = WG2Helper::relURL2absURLInRow($_WG2_CFG['webDir'],$r);
 		$rows[] = $r;
 	}else if($r['error']==4){
 		continue;//빈 업로드는 무시한다.
@@ -44,9 +45,9 @@ foreach($rs as &$r){
 }
 
 //--- JSONP로 동작시킨다.
-$callback = isset($_POST['callback'])?$_POST['callback']:null;
+$callback = isset($_REQUEST['callback'])?$_REQUEST['callback']:null;
 if(isset($callback)){
-	echo $callback.'('.json_encode($rts).')';
+	echo $callback.'('.json_encode($rows).')';
 	exit;
 }
 
