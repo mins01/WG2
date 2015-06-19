@@ -44,6 +44,7 @@ class MHeader{
 	function lastModified($sec,$iHTTP_IF_MODIFIED_SINCE=NULL){
 		$HTTP_IF_MODIFIED_SINCE = isset($iHTTP_IF_MODIFIED_SINCE)?$iHTTP_IF_MODIFIED_SINCE:(isset($_SERVER['HTTP_IF_MODIFIED_SINCE'][0])?$_SERVER['HTTP_IF_MODIFIED_SINCE']:NULL);
 		if(isset($HTTP_IF_MODIFIED_SINCE[0]) &&  strtotime($HTTP_IF_MODIFIED_SINCE) > time()){
+			//header("x-304-reason: Last-Modified");
 			header("HTTP/1.1 304 Not Modified",true,304); 
 			return true;
 			//exit();
@@ -55,12 +56,13 @@ class MHeader{
 	/**
 	* etag 제어
 	* $etag : etag의 값을 기준으로 재요청시 HTTP CODE 304를 발생시켜서 트래픽을 줄인다.
-	* $HTTP_IF_MODIFIED_SINCE : 수동으로 입력받으면, 그 값으로 기준으로 처리한다.
+	* $iHTTP_IF_NONE_MATCH : 수동으로 입력받으면, 그 값으로 기준으로 처리한다.
 	* return : true일 경우 exit()로 페이지를 끝내는걸 추천.
 	*/
 	function etag($etag,$iHTTP_IF_NONE_MATCH=NULL){
 		$HTTP_IF_NONE_MATCH = isset($iHTTP_IF_NONE_MATCH)?$iHTTP_IF_NONE_MATCH:(isset($_SERVER['HTTP_IF_NONE_MATCH'][0])?trim($_SERVER['HTTP_IF_NONE_MATCH']):NULL);
 		if(isset($HTTP_IF_NONE_MATCH) && $HTTP_IF_NONE_MATCH == $etag){
+			//header("x-304-reason: Etag");			
 			header("HTTP/1.1 304 Not Modified",true,304); 
 			return true;
 			//exit();
