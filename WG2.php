@@ -8,6 +8,9 @@ $var = isset($_REQUEST['var'])?$_REQUEST['var']:'finfo';
 $dir = isset($_REQUEST['dir'])?$_REQUEST['dir']:'/';
 //if(strpos($dir,'/')===0){ $dir = substr($dir,1); }
 $dir = str_replace('..','.',$dir);
+if($dir[0]!='/'){
+	$dir = '/'.$dir; //항상 /로 시작하게 함
+}
 $upDir = str_replace('\\','/', dirname($dir));
 if($upDir=='.'){$upDir='/';}
 
@@ -57,18 +60,19 @@ foreach($rows as & $v){
 //-- 웹캐시 설정
 //*
 $sec = 60;
-//$etag =  floor(time()/$sec).md5( serialize($rows));
-MHeader::expires($sec);
-$msgs = array();
-
-if(false && MHeader::etag($etag)){
+$etag =  floor(time()/$sec).md5( serialize($rows).$dir );
+if(MHeader::etag($etag)){
 	//$msgs[] = 'etag 동작';//실제 출력되지 않는다.(304 발생이 되기 때문에)
 	exit('etag 동작');
-}else if(MHeader::lastModified($sec)){
+}
+if(MHeader::lastModified($sec)){
 	//$msgs[] = 'lastModified 동작'; //실제 출력되지 않는다.(304 발생이 되기 때문에)
 	exit('lastModified 동작');
 }
+MHeader::expires($sec);
 //*/
+
+
 //--
 
 
