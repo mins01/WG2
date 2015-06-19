@@ -87,8 +87,16 @@ class MUpload{
 		//$path = iconv('utf-8',$this->to_charset,$path);
 		$pt = pathinfo($path);
 		$icnt = 0;
+		$filename = preg_replace('/\(\d\)+$/','',$pt['filename']); //(num) 부분 삭제
+
+		$name = $filename;
+		if(isset($pt['extension'])){
+			$name .= '.'.$pt['extension'];
+		}
+		$path = $pt['dirname'].'/'.$name;
+
 		while(file_exists($path) && ++$icnt < 1000){
-			$name = $pt['filename'].'('.$icnt.')';
+			$name = $filename.'('.$icnt.')';
 			if(isset($pt['extension'])){
 				$name .= '.'.$pt['extension'];
 			}
