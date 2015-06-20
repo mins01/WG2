@@ -85,6 +85,10 @@ class MUpload{
 	}
 	function _getUniqePath($path){
 		//$path = iconv('utf-8',$this->to_charset,$path);
+		if(!file_exists($path)){
+			return $path;
+		}
+		
 		$pt = pathinfo($path);
 		$icnt = 0;
 		$filename = preg_replace('/\(\d\)+$/','',$pt['filename']); //(num) 부분 삭제
@@ -95,7 +99,7 @@ class MUpload{
 		}
 		$path = $pt['dirname'].'/'.$name;
 
-		while(file_exists($path) && ++$icnt < 1000){
+		while(file_exists($path) && ++$icnt < 10000){
 			$name = $filename.'('.$icnt.')';
 			if(isset($pt['extension'])){
 				$name .= '.'.$pt['extension'];
