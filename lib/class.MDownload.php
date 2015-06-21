@@ -86,7 +86,7 @@ class MDownload{
 		}
 		$path = $this->iconv($path,0);
 		if(!is_file($path)){
-			$this->error = __METHOD__."::not exists file. ({$path})";
+			$this->error = __METHOD__."::not exists file in server";
 			return false;
 		}
 		
