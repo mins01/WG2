@@ -173,6 +173,10 @@ class MDownload{
 		
 		//-- 크기 체크
 		list($width, $height) = getimagesize($path);
+		if(!$width){
+			$this->error = __METHOD__." : file is not a image.";
+			return $this->download($path,$name,$attachment); //리사이즈 하지 않는다.
+		}
 		
 		if($width > $height){
 			$new_width = $this->thumnail_maxWidth;
@@ -201,7 +205,7 @@ class MDownload{
 			case 'png':$image = imagecreatefrompng($path); break;
 		}
 		if($image===false){
-			$this->error = __METHOD__." : file is not image.";
+			$this->error = __METHOD__." : file is not a image..";
 			return false;
 		}
 		$name = 'th_'.$pif['filename'].'.jpg'; //jpg로 고정
