@@ -17,8 +17,8 @@ class MDownload{
 	//== 썸네일
 	var $thumnail_use = true;
 	var $thumnail_minFilesize = 307200; //300KB 이상면 리사이즈, 아니면 그냥 출력
-	var $thumnail_maxWidth = 200;
-	var $thumnail_maxHeight = 200;
+	var $thumnail_maxWidth = 300;
+	var $thumnail_maxHeight = 300;
 	var $thumnail_jpg_quality = 50;
 	
 	
@@ -86,10 +86,12 @@ class MDownload{
 			'Content-Disposition'=>$attachment?'attachment':'inline',
 			'Content-Transfer-Encoding'=>'binary',
 			'Content-Length'=>-1,
-			'X-error'=>$this->error,
 		);
 		$header['Content-Disposition']=$this->strContentDisposition($attachment,$name);
 		$header['Content-Type'] = $this->get_mimetype($name);
+		if(isset($this->error[0])){
+			$header['X-error'] = $this->error;
+		}
 		return $header;
 	}
 	//=== 다운로드 : web_charset 기준
@@ -193,9 +195,7 @@ class MDownload{
 			return $this->download($path,$name,$attachment); //리사이즈 하지 않는다.
 		}
 		//-- 이미지  체크
-		
-		$new_width = 200;
-		$new_height = floor($height * 200/$width);
+
 		$pif = $this->pathinfo($path);
 		$image = null;
 		switch(strtolower($pif['extension'])){
