@@ -14,6 +14,14 @@ class MDownload{
 	var $web_charset = 'utf-8';//웹쪽 언어셋
 	var $to_charset_option = '//TRANSLIT';
 	
+	//== 썸네일
+	var $thumnail_use = true;
+	var $thumnail_minFilesize = 307200; //300KB 이상면 리사이즈, 아니면 그냥 출력
+	var $thumnail_maxWidth = 200;
+	var $thumnail_maxHeight = 200;
+	var $thumnail_jpg_quality = 50;
+	
+	
 	function MDownload(){
 		return $this->__construct();
 	}
@@ -54,7 +62,7 @@ class MDownload{
 	}
 	//=== 확장자로 minetype 가져오기
 	function get_mimetype($name){
-		$t = pathinfo($name);
+		$t = $this->pathinfo($name);
 		$ext = isset($t['extension'])?strtolower($t['extension']):'';
 		switch($ext){
 			case 'png':
@@ -72,27 +80,42 @@ class MDownload{
 			break;
 		}
 	}
-	//=== 다운로드 : 모든 입력은 utf-8기준
-	function download($path,$name='',$attachment=false){
-		
+	function _createHeaders($name,$attachment){
 		$header = array(
 			'Content-Type'=>'application/octet-stream',
 			'Content-Disposition'=>$attachment?'attachment':'inline',
 			'Content-Transfer-Encoding'=>'binary',
 			'Content-Length'=>-1,
+			'X-error'=>$this->error,
 		);
+		$header['Content-Disposition']=$this->strContentDisposition($attachment,$name);
+		$header['Content-Type'] = $this->get_mimetype($name);
+		return $header;
+	}
+	//=== 다운로드 : web_charset 기준
+	function downloadFromWeb($path,$name='',$attachment=false){
 		if(!isset($name[0])){
-			$name = basename($path);
+			$name = $this->basename($path);
 		}
 		$path = $this->iconv($path,0);
+		return $this->download($path,$name,$attachment);
+	}
+	//=== 다운로드 : server_charset 기준 ($name은 web_charset 기준)
+	function download($path,$name='',$attachment=false){
+		
 		if(!is_file($path)){
-			$this->error = __METHOD__."::not exists file in server";
+			$this->error = __METHOD__." : not exists file in server";
 			return false;
 		}
+		if(!isset($name[0])){
+			$name = $this->basename($path);
+		}
+
 		
-		$header['Content-Disposition']=$this->strContentDisposition($attachment,$name);
-		$header['Content-Type'] = $this->get_mimetype($name);		
+		$header = $this->_createHeaders($name,$attachment);
 		$header['Content-Length'] = sprintf('%u',filesize($path));
+		$header['X-error'] = $this->error;
+		
 		foreach($header as $k=>$v){
 			header("{$k}: {$v}");
 		}
@@ -109,22 +132,100 @@ class MDownload{
 		return true;
 	}
 	function downloadByString(& $str,$name,$attachment=false){
-		$header = array(
-			'Content-Type'=>'application/octet-stream',
-			'Content-Disposition'=>$attachment?'attachment':'inline',
-			'Content-Transfer-Encoding'=>'binary',
-			'Content-Length'=>-1,
-		);
-
-		$header['Content-Disposition']=$this->strContentDisposition($attachment,$name);
-		$header['Content-Type'] = $this->get_mimetype($name);
+		$header = $this->_createHeaders($name,$attachment);
 		$header['Content-Length'] = sprintf('%u',strlen($str));
 		foreach($header as $k=>$v){
 			header("{$k}: {$v}");
-			//echo "{$k}: {$v}\n";
 		}
 		echo $str;
 		return true;
+	}
+	//=== 썸네일로 출력 : web_charset 기준 ($name은 web_charset 기준)
+	function thumbnailFromWeb($path,$name='',$attachment=false){
+		if(!isset($name[0])){
+			$name = $this->basename($path);
+		}
+		$path = $this->iconv($path,0);
+		return $this->thumbnail($path,$name,$attachment);
+	}
+	//=== 썸네일로 출력 : server_charset 기준
+	function thumbnail($path,$name='',$attachment=false){
+		if(!$this->thumnail_use){
+			$this->error = __METHOD__." : thumnail_use is false";
+			return $this->download($path,$name,$attachment); //리사이즈 하지 않는다.
+		}
+		if(!is_file($path)){
+			$this->error = __METHOD__." : not exists file in server";
+			return false;
+		}
+		if($this->thumnail_minFilesize > filesize($path)){
+			$this->error = __METHOD__." : filesize > minFilesize";
+			return $this->download($path,$name,$attachment); //리사이즈 하지 않는다.
+		}
+		if(!function_exists('gd_info')){
+			$this->error = __METHOD__." : not installed GD";
+			return $this->download($path,$name,$attachment); //리사이즈 하지 않는다.
+		}
+		if(!isset($name[0])){
+			$name = $this->basename($path);
+		}
+		
+		
+		//-- 크기 체크
+		list($width, $height) = getimagesize($path);
+		
+		if($width > $height){
+			$new_width = $this->thumnail_maxWidth;
+			$new_height = floor($height * $new_width/$width);
+		}else if($width < $height){
+			$new_height = $this->thumnail_maxHeight;
+			$new_width = floor($width * $new_height/$height);
+		}else{
+			$new_width = $this->thumnail_maxWidth;
+			$new_height = $this->thumnail_maxHeight;
+		}
+		
+		if($width <= $new_width && $height <= $new_height){
+			return $this->download($path,$name,$attachment); //리사이즈 하지 않는다.
+		}
+		//-- 이미지  체크
+		
+		$new_width = 200;
+		$new_height = floor($height * 200/$width);
+		$pif = $this->pathinfo($path);
+		$image = null;
+		switch(strtolower($pif['extension'])){
+			case 'jepg':
+			case 'jpg':$image = imagecreatefromjpeg($path); break;
+			case 'gif':$image = imagecreatefromgif($path); break;
+			case 'png':$image = imagecreatefrompng($path); break;
+		}
+		if($image===false){
+			$this->error = __METHOD__." : file is not image.";
+			return false;
+		}
+		$name = 'th_'.$pif['filename'].'.jpg'; //jpg로 고정
+		$header = $this->_createHeaders($name,$attachment);
+		//$header['Content-Length'] = sprintf('%u',filesize($path));
+		unset($header['Content-Length']); //length를 출력안하면 자동으로 Transfer-Encoding:chunked 가 설정된다.(설정 안될경우 disconnect 때 시간이 걸린다.
+		
+		
+		$header['X-thumbnail'] = '1';		
+		foreach($header as $k=>$v){
+			header("{$k}: {$v}");
+		}
+		
+		// Content type
+		// Get new dimensions
+		$image_p = imagecreatetruecolor($new_width, $new_height);
+		// Resample
+		imagecopyresampled($image_p, $image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+		// Output
+		imagejpeg($image_p, null, $this->thumnail_jpg_quality);
+		imagedestroy($image_p);
+		
+		list($width, $height) = getimagesize($filePath);
+		
 	}
 }
 

@@ -40,26 +40,37 @@ if(MHeader::etag($etag)){
 	exit('lastModified 동작');
 }
 
-if($mode=='preview' && preg_match('/\.wcbjson$/i',$rel_path)){
-	$wcbjson = new Wcbjson();
-	//$wcbjson->open($path);
-	//$r = $wcbjson->preview();
-	$r = $wcbjson->previewByPath($path); //이쪽이 메모리 사용이 적다.
-	if($r===false){
-		$error = $wcbjson->error;
-	}else{
-		$name = $mdown->basename($path).'.png';
-		$r = $mdown->downloadByString($r,$name);
+switch($mode){
+	case 'preview':
+		if(preg_match('/\.wcbjson$/i',$rel_path)){
+			$wcbjson = new Wcbjson();
+			//$wcbjson->open($path);
+			//$r = $wcbjson->preview();
+			$r = $wcbjson->previewByPath($path); //이쪽이 메모리 사용이 적다.
+			if($r===false){
+				$error = $wcbjson->error;
+			}else{
+				$name = $mdown->basename($path).'.png';
+				$r = $mdown->downloadByString($r,$name);
+				if($r===false){
+					$error = $mdown->error;
+				}
+			}
+		}else{
+			$r = $mdown->thumbnailFromWeb($path);
+			if($r===false){
+				$error = $mdown->error;
+			}
+		}
+	break;
+	case 'view':;
+	case 'down':;
+	default:
+		$r = $mdown->downloadFromWeb($path,'',($mode=='down'));
 		if($r===false){
 			$error = $mdown->error;
 		}
-	}
-}else{
-	
-	$r = $mdown->download($path);
-	if($r===false){
-		$error = $mdown->error;
-	}
+	break;
 }
 
 
