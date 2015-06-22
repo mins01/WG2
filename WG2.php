@@ -39,17 +39,13 @@ $rows = $mdi->filter_extension($rows,$_WG2_CFG['allowExt']);
 //-- 폴더 속 파일 수 제한하기
 foreach($rows as & $v){
 	unset($v['path'],$v['dirname']); //불필요 정보 삭제
-	//$v['type'] = $v['is_dir']?'dir':'file';//dir과 file만 
 	$path = $dir.'/'.$v['basename'];
-	//$v['preview'] = $v['is_dir']?$previewDir:'./down.php?rel_path='.$v['rel_path'];
 	if(isset($v['in_contents'])){
 		$v['in_contents_count'] = count($v['in_contents']);
 		$v['in_contents'] = array_slice($v['in_contents'],0,$_WG2_CFG['dirContentLimit']);
 		foreach($v['in_contents'] as & $v2){
-			//$v2['type'] = $v2['is_dir']?'dir':'file';//dir과 file만 
 			unset($v2['path'],$v2['dirname']); //불필요 정보 삭제
 			$path2 = $path.'/'.$v2['basename'];
-			//$v2['preview'] = $v2['is_dir']?$previewDir:'./down.php?rel_path='.$v2['rel_path'];
 		}
 	}
 	
