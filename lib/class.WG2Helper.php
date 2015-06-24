@@ -31,9 +31,17 @@ class WG2Helper{
 		return implode('',$r);
 	}
 	function relURL2absURLInRow($pre,$row){
+		$currentDomain = preg_replace('|(://[^/]*)(/.*)|','\\1',$pre);
 		foreach($row as $k => & $v){
-			if(strpos($k,'url') && strpos($v,'http')!==0){
-				$v = str_replace('./','',$pre.'/'.$v);
+			if(strpos($k,'url')){
+				if(strpos($v,'http')===0){
+					continue;
+				}else if(strpos($v,'/')===0){
+					$v = $currentDomain.str_replace('//','/',$v);	
+				}else if(strpos($v,'./')===0){
+					$v = str_replace('//','/',$pre.'/'.$v);	
+				}
+				
 			}
 		}
 		return $row;
