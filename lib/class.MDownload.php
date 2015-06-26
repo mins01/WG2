@@ -104,7 +104,7 @@ class MDownload{
 	}
 	//=== 다운로드 : server_charset 기준 ($name은 web_charset 기준)
 	function download($path,$name='',$attachment=false){
-		
+		$this->error = '';
 		if(!is_file($path)){
 			$this->error = __METHOD__." : not exists file in server";
 			return false;
@@ -116,7 +116,7 @@ class MDownload{
 		
 		$header = $this->_createHeaders($name,$attachment);
 		$header['Content-Length'] = sprintf('%u',filesize($path));
-		$header['X-error'] = $this->error;
+		if(isset($this->error[0])) $header['X-error'] = $this->error;
 		
 		foreach($header as $k=>$v){
 			header("{$k}: {$v}");
@@ -134,6 +134,7 @@ class MDownload{
 		return true;
 	}
 	function downloadByString(& $str,$name,$attachment=false){
+		$this->error = '';
 		$header = $this->_createHeaders($name,$attachment);
 		$header['Content-Length'] = sprintf('%u',strlen($str));
 		foreach($header as $k=>$v){
@@ -152,6 +153,7 @@ class MDownload{
 	}
 	//=== 썸네일로 출력 : server_charset 기준
 	function thumbnail($path,$name='',$attachment=false){
+		$this->error = '';
 		if(!$this->thumnail_use){
 			$this->error = __METHOD__." : thumnail_use is false";
 			return $this->download($path,$name,$attachment); //리사이즈 하지 않는다.
