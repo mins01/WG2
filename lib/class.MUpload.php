@@ -73,7 +73,7 @@ class MUpload{
 	}
 	function _mkdir($dir){
 		if(!is_dir($dir)){
-			return mkdir($dir,077,true);
+			return mkdir($dir,0777,true);
 		}
 		return true;
 	}
