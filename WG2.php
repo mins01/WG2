@@ -114,13 +114,13 @@ MHeader::expires($sec);
 					<div class="col-lg-5">
 						<span class="input-group  input-group-sm">
 							<span class="input-group-addon" id="sizing-addon3">Upload 1.</span>
-							<input class="form-control" name="upf[]" type="file" placeholder="Select File..." accept="<?=htmlspecialchars($_WG2_CFG['upload_file_accept'])?>">
+							<input class="form-control" multiple name="upf[]" type="file" placeholder="Select File..." accept="<?=htmlspecialchars($_WG2_CFG['upload_file_accept'])?>">
 						</span>
 					</div>
 					<div class="col-lg-5">
 						<span class="input-group  input-group-sm">
 							<span class="input-group-addon" id="sizing-addon3">Upload 2.</span>
-							<input class="form-control" name="upf[]" type="file" placeholder="Select File..." accept="<?=htmlspecialchars($_WG2_CFG['upload_file_accept'])?>">
+							<input class="form-control" name="upf[]" type="file" placeholder="Select File..." multiple accept="<?=htmlspecialchars($_WG2_CFG['upload_file_accept'])?>">
 						</span>
 					</div>
 					<div class="col-lg-2" style="text-align:center">

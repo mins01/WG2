@@ -15,7 +15,7 @@ $mdi->setConfigExtension($_WG2_CFG['cfgExt']);
 
 
 $mup = new MUpload();
-$mup->max_size = 1024*1000;
+$mup->max_size = 1024*1024*3;
 $mup->setAllow_extensions('png;jpg;eml');
 
 
