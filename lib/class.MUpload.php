@@ -158,7 +158,16 @@ class MUpload{
 				$this->_log($dir,$f); continue;
 			}
 			$tmp_path = $f['tmp_name'];
-			$path = $this->_getUniqePath($dir.'/'. $this->iconv($f['name'],0)); //내부 케릭터 셋 
+			$path = $dir.'/'. $this->iconv($f['name'],0); //내부 케릭터 셋 
+			if(defined('_WG_UPLOAD_OVERWRITE') && _WG_UPLOAD_OVERWRITE){
+				// $path = $this->_getUniqePath($dir.'/'. $this->iconv($f['name'],0)); //내부 케릭터 셋 
+				if(is_file($path)){
+					unlink($path);
+				}
+			}else{
+				$path = $this->_getUniqePath($dir.'/'. $this->iconv($f['name'],0)); //내부 케릭터 셋 
+			}
+			
 			if($path===false){
 				$f['result'] = false;
 				$f['error_msg'] = 'error exists filename';
@@ -187,5 +196,3 @@ class MUpload{
 	
 }
 
-
-?>

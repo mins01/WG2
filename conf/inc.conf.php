@@ -1,4 +1,7 @@
 <?
+
+define('_WG_UPLOAD_OVERWRITE',0);//이름 중복시 덮어씀
+
 $_WG2_ROOT = dirname(dirname(__FILE__));
 require_once($_WG2_ROOT.'/lib/class.WG2Helper.php');
 
