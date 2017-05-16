@@ -73,7 +73,10 @@ class MUpload{
 	}
 	function _mkdir($dir){
 		if(!is_dir($dir)){
-			return mkdir($dir,0777,true);
+			$r = mkdir($dir,0777,true);
+			chmod($dir,0777);
+			chmod(dirname($dir),0777);
+			return $r;
 		}
 		return true;
 	}
