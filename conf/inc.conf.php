@@ -1,5 +1,7 @@
 <?
 
+error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_USER_DEPRECATED);
+
 define('_WG_UPLOAD_OVERWRITE',0);//이름 중복시 덮어씀
 
 $_WG2_ROOT = dirname(dirname(__FILE__));

@@ -27,17 +27,17 @@ if($r == false){
 
 
 
-//-- À¥Ä³½Ã ¼³Á¤
+//-- ì›¹ìºì‹œ ì„¤ì •
 $sec = 60*60*6;
 $etag = floor(time()/$sec).md5($rel_path);
 MHeader::expires($sec);
 $msgs = array();
 if(MHeader::etag($etag)){
-	//$msgs[] = 'etag µ¿ÀÛ';//½ÇÁ¦ Ãâ·ÂµÇÁö ¾Ê´Â´Ù.(304 ¹ß»ýÀÌ µÇ±â ¶§¹®¿¡)
-	exit('etag µ¿ÀÛ');
+	//$msgs[] = 'etag ë™ìž‘';//ì‹¤ì œ ì¶œë ¥ë˜ì§€ ì•ŠëŠ”ë‹¤.(304 ë°œìƒì´ ë˜ê¸° ë•Œë¬¸ì—)
+	exit('etag ë™ìž‘');
 }else if(MHeader::lastModified($sec)){
-	//$msgs[] = 'lastModified µ¿ÀÛ'; //½ÇÁ¦ Ãâ·ÂµÇÁö ¾Ê´Â´Ù.(304 ¹ß»ýÀÌ µÇ±â ¶§¹®¿¡)
-	exit('lastModified µ¿ÀÛ');
+	//$msgs[] = 'lastModified ë™ìž‘'; //ì‹¤ì œ ì¶œë ¥ë˜ì§€ ì•ŠëŠ”ë‹¤.(304 ë°œìƒì´ ë˜ê¸° ë•Œë¬¸ì—)
+	exit('lastModified ë™ìž‘');
 }
 
 switch($mode){
@@ -46,7 +46,7 @@ switch($mode){
 			$wcbjson = new Wcbjson();
 			//$wcbjson->open($path);
 			//$r = $wcbjson->preview();
-			$r = $wcbjson->previewByPath($path); //ÀÌÂÊÀÌ ¸Þ¸ð¸® »ç¿ëÀÌ Àû´Ù.
+			$r = $wcbjson->previewByPath($path); //ì´ìª½ì´ ë©”ëª¨ë¦¬ ì‚¬ìš©ì´ ì ë‹¤.
 			if($r===false){
 				$error = $wcbjson->error;
 			}else{

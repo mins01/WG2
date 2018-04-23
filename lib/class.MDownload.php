@@ -229,9 +229,7 @@ class MDownload{
 		// Output
 		imagejpeg($image_p, null, $this->thumnail_jpg_quality);
 		imagedestroy($image_p);
-		
-		list($width, $height) = getimagesize($filePath);
-		
+		return true;
 	}
 }
 
