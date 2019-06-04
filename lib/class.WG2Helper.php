@@ -4,7 +4,7 @@
 * 업로드 관련 관련.
 */
 class WG2Helper{
-	function currentURL($server){
+	public static function currentURL($server){
 		$isCLI = (php_sapi_name() == "cli");
 		if($isCLI){ return false; }
 		$isHTTPS = isset($server['HTTPS'][0]);
@@ -17,7 +17,7 @@ class WG2Helper{
 		$r[] = $REQUEST_URI;
 		return implode('',$r);
 	}
-	function currentDomain($server){
+	public static function currentDomain($server){
 		$isCLI = (php_sapi_name() == "cli");
 		if($isCLI){ return false; }
 		$isHTTPS = isset($server['HTTPS'][0]);
@@ -30,7 +30,7 @@ class WG2Helper{
 		//$r[] = $REQUEST_URI;
 		return implode('',$r);
 	}
-	function relURL2absURLInRow($pre,$row){
+	public static function relURL2absURLInRow($pre,$row){
 		$currentDomain = preg_replace('|(://[^/]*)(/.*)|','\\1',$pre);
 		foreach($row as $k => & $v){
 			if(strpos($k,'url')){
