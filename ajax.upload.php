@@ -23,7 +23,7 @@ $mup = new MUpload();
 $mup->server_charset = 'utf-8';
 $mup->web_charset = 'utf-8';
 $mup->max_size = 1024*1024*3;
-$mup->setAllow_extensions('png,jpg,eml');
+$mup->setAllow_extensions('png,jpg,gif');
 
 
 $rs = $mup->upload($todir,$_FILES['upf']);
