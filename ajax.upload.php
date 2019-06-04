@@ -11,7 +11,7 @@ $todir = preg_replace('!//+!', '/', $todir);
 
 $mdi = new MDirInfo();
 $mdi->server_charset = 'utf-8';
-$mdi->$web_charset = 'utf-8';
+$mdi->web_charset = 'utf-8';
 $mdi->sortF = 'mtime';
 $mdi->sortR = 1;
 //$mdi->allowExt = allowExt
@@ -21,7 +21,7 @@ $mdi->setConfigExtension($_WG2_CFG['cfgExt']);
 
 $mup = new MUpload();
 $mup->server_charset = 'utf-8';
-$mup->$web_charset = 'utf-8';
+$mup->web_charset = 'utf-8';
 $mup->max_size = 1024*1024*3;
 $mup->setAllow_extensions('png,jpg,eml');
 
