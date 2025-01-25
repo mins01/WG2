@@ -83,6 +83,7 @@ class MUpload{
 	function _checkAllotExt($path){
 		if($this->allow_extensions[0] == '*'){return true;}
 		$pt = pathinfo($path);
+		print_r($pt);exit;
 		$t = isset($pt['extension'])?$pt['extension']:'';
 		return in_array($t,$this->allow_extensions);
 	}

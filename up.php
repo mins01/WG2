@@ -47,8 +47,14 @@ foreach($rs as &$r){
 //--- JSONP로 동작시킨다.
 $callback = isset($_REQUEST['callback'])?$_REQUEST['callback']:null;
 if(isset($callback)){
-	echo $callback.'('.json_encode($rows).')';
-	exit;
+	if($callback==='json'){
+		header('Content-Type: application/json');
+		echo json_encode($rows);
+		exit;
+	}else{
+		echo $callback.'('.json_encode($rows).')';
+		exit;
+	}
 }
 
 
