@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ko" >
+<head>
+	<title>ajax form</title>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Script-Type" content="text/javascript">
+	<meta http-equiv="Content-Style-Type" content="text/css">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="shortcut icon" href="http://www.mins01.com/favicon.ico">	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	<script src="/js/ForGoogle.js"></script>
+	<!-- google analytics -->
+	<script>ForGoogle.analytics()</script>
+	
+	
+	<!-- jquery 관련 -->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>  
+	
+	
+	<!-- 부트스트랩 4 : IE8지원안됨! -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" crossorigin="anonymous"> 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" crossorigin="anonymous"></script> 
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" crossorigin="anonymous"></script>
+	<!-- vue.js -->
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+	
+	<!-- meta og -->
+	
+	<meta property="og:title" content="ajax form">
+	<meta property="og:description" content="ajax form">
+	<meta name="og:image" content="http://www.mins01.com/img/logo.gif">
+	<meta property="og:image:width" content="190">
+	<meta property="og:image:height" content="70" />
+	<meta property="og:site_name" content="ajax form" />
+	<meta property="og:type" content="website">
+	
+	<!-- //meta og -->
+	<script>
+	function ajax_upload(f){
+		// var d = $(f).serialize();
+		var url = f.action;
+		var fd = new FormData()
+		fd.append("dir",f.dir.value);
+		console.log(fd);;
+		for(let i=0,m=f['upf[]'].files.length;i<m;i++){
+			fd.append('upf[]',f['upf[]'].files[i],f['upf[]'].files[i].name);
+		}
+		for (var [k,v] of fd.entries()){
+			console.log(k,v)
+		}
+		$.ajax({
+			url: url,
+			type: f.method, //GET
+			dataType: 'json', //xml, json, script, jsonp, or html
+			processData: false,
+			contentType: false,
+			data: fd,
+		})
+		.done(function(rData) { //통신 성공 시 호출
+			console.log(rData);
+			console.log("success");
+			for(var i=0,m=rData.length;i<m;i++){
+				var r = rData[i];
+				$("#resList").append('<li class="list-group-item"><a target="_blank" href="'+r.viewurl+'">'+r.basename+'</a><br />'+JSON.stringify(r)+'</li>')
+			}
+			
+		})
+		.fail(function() { //통신 실패 시 호출
+			console.log("error");
+		})
+		.always(function() { //성공/실패 후 호출.
+			console.log("complete");
+		});
+		return false;
+	}
+	</script>
+	
+</head>
+<body>
+	<div class="container">
+		<h3>ajax form</h3>
+		<form name="form_upload" method="post" enctype="multipart/form-data" action="http://wwwdev.mins01.com/WG2/ajax.upload.php" onsubmit="return false;">
+			<div class="input-group mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="basic-addon1">저장경로</span>
+				</div>
+				<input type="text" name="dir" value="" placeholder="없으면 자동으로 년/월" class="form-control" />
+			</div>
+			<div class="input-group mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="basic-addon1">업로드 파일</span>
+				</div>
+				<input type="file" multiple name="upf[]" class="form-control" />
+			</div>
+			<div class="text-right">
+				<button type="button" onclick="ajax_upload(this.form);" class="btn btn-info">ajax 업로드</button>	
+			</div>
+		</form>
+		<hr />
+		<h4>결과</h4>
+		<ul class="list-group" id="resList">
+		  <li class="list-group-item">결과</li>
+		  
+		</ul>
+	</div>
+</body>
+</html>

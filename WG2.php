@@ -17,6 +17,8 @@ if($upDir=='.'){$upDir='/';}
 
 
 $mdi = new MDirInfo();
+$mdi->server_charset = 'utf-8';
+$mdi->web_charset = 'utf-8';
 $mdi->sortF = 'mtime';
 $mdi->sortR = 1;
 //$mdi->allowExt = allowExt

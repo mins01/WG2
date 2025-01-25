@@ -17,6 +17,8 @@ if(!isset($rel_path[0])){
 $path = $baseDir.'/'.$rel_path;
 
 $mdown = new MDownload();
+$mdown->server_charset = 'utf-8';
+$mdown->web_charset = 'utf-8';
 /*
 $r = $mdown->setPath($path);
 if($r == false){
