@@ -15,7 +15,7 @@ class Wg2Uploder{
     const url = this.getUploadUrl();
     console.log(url);
     
-    fetch(url,
+    return fetch(url,
       {
         method: data?'POST':'GET', // *GET, POST, PUT, DELETE, etc.
         // mode: 'same-origin', // no-cors, cors, *same-origin
@@ -36,11 +36,11 @@ class Wg2Uploder{
         body: data, //  Blob, BufferSource, FormData, URLSearchParams, USVString, or ReadableStream // body data type must match "Content-Type" header //GET, HEAD 인 경우 body가 있으면 안된다.
       })
       .then(function(response){
-        console.log("response",response)
-        console.log("headers")
-        for(const kv of response.headers.entries()){
-          console.log(kv);
-        }
+        // console.log("response",response)
+        // console.log("headers")
+        // for(const kv of response.headers.entries()){
+        //   console.log(kv);
+        // }
         if(!response.ok){
           throw new Error(`HTTP error! status: ${response.status}`); // http 응답 오류부
         }else{
@@ -48,11 +48,11 @@ class Wg2Uploder{
         }
         return response.json();  // response.arrayBuffer() .blob() .formData() .json() .text()
       })
-      .then(function(text){
-        console.log(text)
-      })
-      .catch(function(error){
-        console.error(error);
-      })
+      // .then(function(text){
+      //   console.log(text)
+      // })
+      // .catch(function(error){
+      //   console.error(error);
+      // })
   }
 }
