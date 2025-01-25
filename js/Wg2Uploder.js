@@ -13,7 +13,7 @@ class Wg2Uploder{
     data.append('upf',file,filename);
     data.append('callback','json');
     const url = this.getUploadUrl();
-    console.log(url);
+    // console.log(url);
     
     return fetch(url,
       {
