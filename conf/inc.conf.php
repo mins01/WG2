@@ -47,6 +47,7 @@ $_WG2_CFG['cfgExt']['wcbjson'] = array(
 	'is_image'=>true
 );
 
+$_WG2_CFG['corsDomainRegExp'] = '/^(127\.0\.0\.1|mins01\.com|[^.]\.mins01\.com|mins01\.github\.io)$/';
 
 
 //---

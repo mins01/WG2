@@ -3,6 +3,29 @@ require_once('./conf/inc.conf.php');
 require_once($_WG2_ROOT.'/lib/class.MUpload.php');
 require_once($_WG2_ROOT.'/lib/class.MDirInfo.php');
 
+//--- cors
+$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:null;	
+$referer_info = parse_url($referer);
+$referer_scheme = $referer_info['scheme'];
+$referer_host = $referer_info['host'];
+$referer_port = isset($referer_info['port'])?$referer_info['port']:null; //int or null
+// var_dump($referer_port);
+
+if(preg_match( $_WG2_CFG['corsDomainRegExp'], $referer_host)){
+	$allow_domain = "{$referer_scheme}://{$referer_host}".(($referer_port!==null)?':'.$referer_port:'');
+	header("Access-Control-Allow-Origin: {$allow_domain}"); 
+}
+// echo $_WG2_CFG['corsDomainRegExp'];
+// echo $referer_host;exit;
+//---
+
+
+
+
+
+
+
+
 $dir = isset($_REQUEST['dir'])?$_REQUEST['dir']:date('Y/m');  //값이 없으면 자동으로 업로드 위치 선택
 $todir = $_WG2_CFG['baseDir'].'/'.$dir;
 
